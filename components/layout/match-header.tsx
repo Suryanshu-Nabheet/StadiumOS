@@ -2,7 +2,7 @@
 
 import { LiveIndicator } from "@/components/ui/live-indicator";
 import { StatBlock } from "@/components/ui/stat-block";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { AnimatedSidebarTrigger } from "@/components/layout/animated-sidebar-trigger";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { useStadium } from "@/hooks/use-stadium";
@@ -17,7 +17,7 @@ export function MatchHeader() {
     <header className="sticky top-0 z-20 shrink-0 border-b border-sidebar-border bg-white/90 backdrop-blur-md">
       <div className="flex flex-col gap-4 px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
         <div className="flex min-w-0 items-start gap-2.5 md:items-center md:gap-3">
-          <SidebarTrigger className="mt-0.5 shrink-0 md:mt-0" />
+          <AnimatedSidebarTrigger className="mt-0.5 shrink-0 md:mt-0" />
           <Separator
             orientation="vertical"
             className="mt-1 hidden h-10 md:block"

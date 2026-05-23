@@ -57,7 +57,7 @@ export function LandingContent() {
   const { author, event } = siteConfig;
 
   return (
-    <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-28 md:px-6 md:pt-32">
+    <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-24 md:px-6 md:pt-28">
       <motion.section
         className="max-w-2xl"
         initial={{ opacity: 0, y: 20 }}

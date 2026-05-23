@@ -13,9 +13,9 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen style={sidebarVars}>
       <AppSidebar />
-      <SidebarInset className="flex min-h-svh flex-col overflow-hidden bg-background">
+      <SidebarInset className="flex min-h-svh flex-col overflow-hidden bg-background transition-[margin] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none">
         <MatchHeader />
-        <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
+        <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6 lg:p-7">
           {children}
         </div>
       </SidebarInset>

@@ -43,7 +43,7 @@ export function SidebarBrand() {
   return (
     <Link
       href="/"
-      className="flex w-full items-center gap-3 rounded-lg px-2 py-2 outline-none transition-colors hover:bg-sidebar-accent/60 focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+      className="flex w-full items-center gap-3 rounded-lg px-2 py-2 outline-none transition-[background-color,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-sidebar-accent/60 focus-visible:ring-2 focus-visible:ring-sidebar-ring"
     >
       <Image
         src="/favicon.svg"
