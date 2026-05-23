@@ -2,11 +2,30 @@
 
 **Enterprise AI-powered stadium crowd intelligence and emergency response platform** for IPL, World Cup, and large-scale cricket events.
 
-Built for **GDG Hackathon** by **Suryanshu Nabheet** — Google Cloud deployment ready.
+Built for **GDG Hackathon** by **Suryanshu Nabheet** — deployed on **Google Cloud Run** (europe-west1).
+
+## Live demo
+
+| | |
+|---|---|
+| **Production** | **[https://stadiumos-1060302697447.europe-west1.run.app/](https://stadiumos-1060302697447.europe-west1.run.app/)** |
+| **Health** | [https://stadiumos-1060302697447.europe-west1.run.app/api/health](https://stadiumos-1060302697447.europe-west1.run.app/api/health) |
+
+### Try it now
+
+| Module | Live URL |
+|--------|----------|
+| Landing | [stadiumos-1060302697447.europe-west1.run.app](https://stadiumos-1060302697447.europe-west1.run.app/) |
+| Command Center | [/dashboard](https://stadiumos-1060302697447.europe-west1.run.app/dashboard) |
+| Crowd Flow | [/crowd-flow](https://stadiumos-1060302697447.europe-west1.run.app/crowd-flow) |
+| Emergency | [/emergency](https://stadiumos-1060302697447.europe-west1.run.app/emergency) |
+| Digital Twin | [/twin](https://stadiumos-1060302697447.europe-west1.run.app/twin) |
+| Analytics | [/analytics](https://stadiumos-1060302697447.europe-west1.run.app/analytics) |
+| AI Assistant | [/assistant](https://stadiumos-1060302697447.europe-west1.run.app/assistant) |
 
 Brand assets: `public/favicon.svg` · `public/gdg.svg`
 
-## Quick start
+## Quick start (local)
 
 ```bash
 chmod +x scripts/*.sh
@@ -28,14 +47,14 @@ Full documentation: **[docs/README.md](./docs/README.md)**
 
 ## Platform modules
 
-| Module | Route |
-|--------|-------|
-| Command Center | `/dashboard` |
-| Crowd Flow AI | `/crowd-flow` |
-| Emergency Agents | `/emergency` |
-| Digital Twin | `/twin` |
-| Analytics | `/analytics` |
-| AI Assistant | `/assistant` |
+| Module | Route | Production |
+|--------|-------|------------|
+| Command Center | `/dashboard` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/dashboard) |
+| Crowd Flow AI | `/crowd-flow` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/crowd-flow) |
+| Emergency Agents | `/emergency` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/emergency) |
+| Digital Twin | `/twin` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/twin) |
+| Analytics | `/analytics` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/analytics) |
+| AI Assistant | `/assistant` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/assistant) |
 
 ## Tech stack
 
@@ -69,6 +88,14 @@ stadiumos/
 ```
 
 ## API health check
+
+**Production:**
+
+```bash
+curl https://stadiumos-1060302697447.europe-west1.run.app/api/health
+```
+
+**Local:**
 
 ```bash
 curl http://localhost:3000/api/health

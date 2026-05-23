@@ -86,6 +86,14 @@ gcloud run deploy stadiumos-ai \
 
 ### 3. Verify
 
+**Live deployment (GDG / Cloud Run):**
+
+```bash
+curl https://stadiumos-1060302697447.europe-west1.run.app/api/health
+```
+
+Generic:
+
 ```bash
 curl https://YOUR_SERVICE_URL/api/health
 ```
