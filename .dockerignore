@@ -1,0 +1,30 @@
+# Dependencies & build output (rebuilt in image)
+node_modules
+.next
+out
+.turbo
+
+# Git & IDE
+.git
+.gitignore
+.cursor
+.vscode
+*.md
+!README.md
+
+# Env secrets (set on Cloud Run)
+.env
+.env.*
+!.env.example
+
+# Local / CI only
+coverage
+.DS_Store
+*.log
+terminals
+agent-transcripts
+assets
+
+# Docker (avoid nested context noise)
+docker-compose.yml
+compose.yml

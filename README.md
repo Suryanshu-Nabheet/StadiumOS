@@ -64,7 +64,8 @@ stadiumos/
 ├── components/       # React UI
 ├── docs/             # Full documentation
 ├── scripts/          # Setup & DevOps automation
-└── docker/           # Container build
+├── Dockerfile        # Cloud Run / Cloud Build (repo root)
+└── docker/           # Duplicate Dockerfile for local reference
 ```
 
 ## API health check

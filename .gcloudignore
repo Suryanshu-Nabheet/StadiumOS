@@ -1,0 +1,15 @@
+# Same as .dockerignore — Cloud Build source upload
+.git
+.gitignore
+node_modules
+.next
+.turbo
+out
+.env
+.env.local
+.cursor
+.vscode
+coverage
+.DS_Store
+*.log
+agent-transcripts

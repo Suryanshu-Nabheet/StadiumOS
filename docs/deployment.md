@@ -42,22 +42,34 @@ App: http://localhost:3000
 docker run -p 3000:3000 -e GEMINI_API_KEY=xxx stadiumos-ai
 ```
 
-Dockerfile: `docker/Dockerfile` (multi-stage, standalone Next.js output).
+Dockerfile: **`/Dockerfile`** at repository root (required for Cloud Build / Cloud Run GitHub deploy).
+
+`docker/Dockerfile` is a copy for local scripts; **GCP must see `Dockerfile` in the repo root.**
 
 ---
 
 ## Google Cloud Run
 
-### 1. Build and push image
+### GitHub → Cloud Run (Cloud Build)
+
+The default build runs:
+
+```text
+docker build -f Dockerfile .
+```
+
+Ensure **`Dockerfile`**, **`.dockerignore`**, and **`.gcloudignore`** exist at the **root** of `main` (not only under `docker/`).
+
+### 1. Build and push image (manual)
 
 ```bash
 export PROJECT_ID=your-gcp-project
-export REGION=asia-south1
+export REGION=europe-west1
 
 gcloud auth configure-docker ${REGION}-docker.pkg.dev
 
-docker build -f docker/Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/stadiumos/stadiumos-ai:latest .
-docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/stadiumos/stadiumos-ai:latest
+docker build -f Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/stadiumos/stadiumos:latest .
+docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/stadiumos/stadiumos:latest
 ```
 
 ### 2. Deploy

@@ -12,7 +12,7 @@ cd_root
 case "${ACTION}" in
   build)
     log_info "Building Docker image: ${IMAGE_NAME}"
-    docker build -f docker/Dockerfile -t "${IMAGE_NAME}" .
+    docker build -f Dockerfile -t "${IMAGE_NAME}" .
     log_ok "Image built: ${IMAGE_NAME}"
     ;;
   up)

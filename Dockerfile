@@ -1,4 +1,4 @@
-# Alias — Cloud Run uses /Dockerfile at repo root. Local: docker build -f Dockerfile .
+# StadiumOS AI — Cloud Run / production (context: repository root)
 FROM node:20-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.12.1 --activate
 WORKDIR /app
