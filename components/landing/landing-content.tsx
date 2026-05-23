@@ -10,6 +10,7 @@ import { GdgHackathonBanner } from "@/components/landing/gdg-hackathon-banner";
 import { LandingStatsStrip } from "@/components/landing/landing-stats-strip";
 import { LandingModulesGrid } from "@/components/landing/landing-modules-grid";
 import { LandingMitSection } from "@/components/landing/landing-mit-section";
+import { LandingProblem } from "@/components/landing/landing-problem";
 import { StadiumMapStatic } from "@/components/twin/stadium-map/stadium-map-static";
 import { siteConfig } from "@/config/site";
 import {
@@ -152,6 +153,8 @@ export function LandingContent() {
       <FadeIn className="mt-10" y={12}>
         <LandingStatsStrip />
       </FadeIn>
+
+      <LandingProblem />
 
       <FadeIn className="mt-14" y={16}>
         <GdgHackathonBanner />

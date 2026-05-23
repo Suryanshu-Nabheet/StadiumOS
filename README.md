@@ -37,13 +37,26 @@ Open [http://localhost:3000](http://localhost:3000) → **Launch Command Center*
 
 Full documentation: **[docs/README.md](./docs/README.md)**
 
-## Problem
+## Problem statement
 
-| | |
-|---|---|
-| **Threat** | Massive crowds create dangerous bottlenecks, security vulnerabilities, and logistical chaos. |
-| **Gap** | Fragmented manual systems — teams cannot adapt to surges, weather, or threats in real time. |
-| **Need** | Integrated command platform: ticketing, crowd routing, automated emergency response. |
+**The threat** — Massive crowds at cricket matches create dangerous bottlenecks, severe security vulnerabilities, and logistical chaos during highly congested pre- and post-match movements.
+
+**The gap** — Current stadium operations rely on fragmented, manual systems, leaving security and volunteers unable to adapt instantly to rapid crowd surges, unpredictable weather shifts, or emerging threats.
+
+**The need** — Organizers urgently need an integrated, real-time command platform to unify ticketing, dynamically route crowd flow, and automate emergency responses for a safe and seamless fan experience.
+
+## Solution (StadiumOS AI)
+
+| Capability | What it does |
+|------------|----------------|
+| **Command center** | Live occupancy, KPIs, stadium map, emergencies, traffic |
+| **Crowd flow** | Gate pressure, heatmap, AI reroute suggestions |
+| **Emergency** | Incidents, dispatch teams, incident reports, evacuation impact |
+| **Digital twin** | 132k-seat Motera schematic with live density |
+| **Analytics** | Trends, throughput, evac readiness, AI confidence |
+| **Assistant** | Gemini copilot on the same live data — no hallucinated dumps on simple chat |
+
+**Live:** [stadiumos-1060302697447.europe-west1.run.app](https://stadiumos-1060302697447.europe-west1.run.app/) · **MIT License** · **GDG Hackathon** · **Suryanshu Nabheet**
 
 ## Platform modules
 

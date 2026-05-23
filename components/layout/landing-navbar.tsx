@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 
 const links = [
+  { href: "#problem", label: "Problem" },
   { href: "#platform", label: "Platform" },
   { href: "#features", label: "Features" },
   { href: "#hackathon", label: "GDG" },
