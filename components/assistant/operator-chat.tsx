@@ -18,7 +18,7 @@ const WELCOME: ChatMessage = {
   id: "welcome",
   role: "assistant",
   content:
-    "StadiumOS is online with live telemetry. Ask about gate pressure, crowd flow, evacuation, security, or incident reports.",
+    "I'm connected to the **live operations database** — the same telemetry as Command Center, Crowd Flow, Emergency, Twin, and Analytics.\n\nAsk about gate overload, congestion, evacuation, security moves, incident reports, or the agent feed.",
   source: "local",
 };
 

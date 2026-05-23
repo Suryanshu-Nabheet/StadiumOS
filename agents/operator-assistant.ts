@@ -1,81 +1,72 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import {
+  buildOperatorContextBlock,
+  type OperatorContext,
+} from "@/lib/operator-context";
 import { getServerEnv } from "@/server/config/env";
-import type { StadiumSnapshot } from "@/types/stadium";
-import type { EmergencyIncident } from "@/types/emergency";
+import { siteConfig } from "@/config/site";
 
-const SYSTEM_PROMPT = `You are StadiumOS AI — an enterprise stadium operations copilot for IPL-scale cricket events.
-Respond concisely with actionable operator intelligence. Use bullet points when listing items.
-Focus on gates, crowd flow, emergencies, evacuation, and security positioning.`;
+const SYSTEM_PROMPT = `You are StadiumOS AI — the unified stadium operations copilot for ${siteConfig.match.venue} Developed by Suryanshu Nabheet.
+You have FULL read access to the live operations database (same Zustand telemetry stream as the Command Center dashboard).
 
-interface AssistantContext {
-  snapshot: StadiumSnapshot;
-  emergencies: EmergencyIncident[];
-}
+Your answers must reference REAL numbers from the LIVE CONTEXT below. Align recommendations with these modules:
+• Command Center KPIs and stadium map
+• Crowd Flow / gate pressure / heatmap
+• Emergency response board and incident map
+• Digital twin zones
+• Analytics (throughput, stress, AI confidence)
+• Autonomous agent feed actions already in progress
 
-function buildContextBlock(ctx: AssistantContext): string {
-  const topGates = [...ctx.snapshot.gates]
-    .sort((a, b) => b.density - a.density)
-    .slice(0, 3)
-    .map((g) => `${g.name}: ${g.density.toFixed(0)}% density, ${g.waitMinutes}min wait`)
-    .join("\n");
+Be concise, actionable, and operator-focused. Use bullet points. Never invent gates, incidents, or metrics not in context.`;
 
-  const activeIncidents = ctx.emergencies
-    .filter((e) => e.status !== "resolved")
-    .map((e) => `- [${e.severity}] ${e.title} @ ${e.location}`)
-    .join("\n");
+export type { OperatorContext };
 
-  return `LIVE CONTEXT:
-Occupancy: ${ctx.snapshot.occupancy} (${ctx.snapshot.occupancyPercent.toFixed(1)}%)
-Crowd stress: ${ctx.snapshot.crowdStressScore}
-AI confidence: ${ctx.snapshot.aiConfidence}%
-
-Top gates:
-${topGates}
-
-Active incidents:
-${activeIncidents || "None"}
-
-Routes: ${ctx.snapshot.routes.map((r) => r.from + " → " + r.to).join("; ")}`;
-}
-
-function localFallbackResponse(
-  message: string,
-  ctx: AssistantContext,
-): string {
+function localFallbackResponse(message: string, ctx: OperatorContext): string {
   const q = message.toLowerCase();
-  const sortedGates = [...ctx.snapshot.gates].sort((a, b) => b.density - a.density);
-  const safestGate = [...ctx.snapshot.gates].sort((a, b) => a.density - b.density)[0];
+  const s = ctx.snapshot;
+  const gates = [...s.gates].sort((a, b) => b.density - a.density);
+  const safestGate = [...s.gates].sort((a, b) => a.density - b.density)[0];
+  const active = ctx.emergencies.filter((e) => e.status !== "resolved");
 
-  if (q.includes("overload") || q.includes("which gate")) {
-    const g = sortedGates[0];
-    return `**Gate overload analysis**\n\n• Most critical: **${g?.name}** at **${g?.density.toFixed(0)}%** density (${g?.waitMinutes} min avg wait)\n• Recommended alternate: **${safestGate?.name}** (${safestGate?.density.toFixed(0)}% load)\n• AI reroute confidence: **${ctx.snapshot.aiConfidence.toFixed(0)}%**\n\nAction: Activate dynamic signage and redirect 15–20% ingress to ${safestGate?.name}.`;
+  if (q.includes("overload") || q.includes("which gate") || q.includes("gate")) {
+    const g = gates[0];
+    return `**Gate overload — live DB**\n\n• Critical: **${g?.name}** — **${g?.density.toFixed(0)}%** density, **${g?.waitMinutes} min** wait, **${g?.throughput}**/min\n• Alternate ingress: **${safestGate?.name}** (${safestGate?.density.toFixed(0)}%)\n• AI confidence: **${s.aiConfidence.toFixed(0)}%** | Crowd stress: **${s.crowdStressScore}/100**\n\n**Action:** Activate signage per route **${s.routes[0]?.from} → ${s.routes[0]?.to}** (${s.routes[0]?.impact ?? "see dashboard"}).`;
   }
 
-  if (q.includes("congestion") || q.includes("predict")) {
-    return `**Predicted congestion (next 15 min)**\n\n• **South Stand / Gate E corridor** — stress index rising\n• **Safest ingress:** ${safestGate?.name}\n\nCrowdFlow agent recommends proactive dispersal before break surge.`;
+  if (q.includes("congestion") || q.includes("predict") || q.includes("crowd")) {
+    const hotStand = [...s.stands].sort((a, b) => b.density - a.density)[0];
+    return `**Crowd flow forecast**\n\n• Highest stand pressure: **${hotStand?.name}** (${hotStand?.density.toFixed(0)}%)\n• Occupancy: **${s.occupancyPercent.toFixed(1)}%** of capacity\n• Stress index: **${s.crowdStressScore}/100** (rising risk if >70)\n\n**Agent feed:** ${s.agents[0]?.agent ?? "CrowdFlow"} — ${s.agents[0]?.action ?? "monitoring"}\n\n**Recommend:** Execute top AI route suggestion and monitor heatmap hotspot sector.`;
   }
 
-  if (q.includes("evacuation") || q.includes("safest path")) {
-    return `**Safest evacuation routing**\n\n• Primary egress: **Exit NE-1 + Exit NW-1**\n• Avoid: Gate E choke point\n• Est. full sector clear: **18–24 min** at current occupancy`;
+  if (q.includes("evacuation") || q.includes("safest path") || q.includes("evac")) {
+    return `**Evacuation routing**\n\n• Occupancy: **${s.occupancy.toLocaleString()}** fans\n• Active incidents: **${active.length}** (highest impact: ${active[0]?.evacuationImpact ?? 0}%)\n• Prefer exits with lowest stand density; avoid **${gates[0]?.name}** choke point\n\n**Fastest paths from DB:**\n${active.map((e) => `• ${e.title}: ${e.fastestPath}`).join("\n") || "• No active paths"}`;
   }
 
   if (q.includes("security") || q.includes("move")) {
-    return `**Security repositioning**\n\n• Deploy 2 units to **Gate E** bottleneck\n• Pre-stage Rapid-7 at **South Stand L2**\n\nPaths computed for <3 min response time.`;
+    return `**Security repositioning**\n\n• Deploy to **${gates[0]?.name}** (${gates[0]?.status})\n• K9/medical priorities from incidents:\n${active.slice(0, 2).map((e) => `• ${e.assignedTeam} → ${e.location}`).join("\n")}\n\n**In progress:** ${s.agents.find((a) => a.agent.includes("Security"))?.action ?? s.agents[1]?.action ?? "See agent feed"}`;
   }
 
-  if (q.includes("report") || q.includes("incident")) {
-    const inc = ctx.emergencies[0];
-    return `**Incident report — ${new Date().toLocaleTimeString()}**\n\n**Summary:** ${ctx.snapshot.occupancyPercent.toFixed(0)}% capacity, ${ctx.emergencies.length} active incidents.\n\n**Priority:** ${inc?.title ?? "None"}\n${inc?.summary ?? ""}`;
+  if (q.includes("report") || q.includes("incident") || q.includes("brief")) {
+    return `**Operator brief — ${new Date().toLocaleTimeString()}**\n\n• **${siteConfig.match.title}** — ${s.occupancyPercent.toFixed(0)}% capacity\n• Crowd stress: **${s.crowdStressScore}/100** | AI confidence: **${s.aiConfidence.toFixed(1)}%**\n• Active incidents: **${active.length}**\n• Top gate: **${gates[0]?.name}** (${gates[0]?.density.toFixed(0)}%)\n\n**Priority:** ${active[0]?.title ?? "None"}\n${active[0]?.summary ?? ""}`;
   }
 
-  return `**Operator brief**\n\n• Occupancy: **${ctx.snapshot.occupancyPercent.toFixed(1)}%** | Stress: **${ctx.snapshot.crowdStressScore}**/100\n• Highest pressure: **${sortedGates[0]?.name}**\n• Active incidents: **${ctx.emergencies.length}**`;
+  if (q.includes("agent") || q.includes("feed")) {
+    return `**Autonomous agent feed**\n\n${s.agents.map((a) => `• **${a.agent}** (${a.status}): ${a.action}`).join("\n")}`;
+  }
+
+  if (q.includes("traffic") || q.includes("parking")) {
+    return `**External traffic**\n\n${s.traffic.map((t) => `• **${t.zone}**: ${t.vehiclesPerMin} veh/min, ETA ${t.etaMinutes}m (${t.severity})`).join("\n")}`;
+  }
+
+  return `**StadiumOS live summary**\n\n• Occupancy **${s.occupancyPercent.toFixed(1)}%** | Stress **${s.crowdStressScore}/100**\n• Busiest gate: **${gates[0]?.name}**\n• Incidents: **${active.length}** | Routes: **${s.routes.length}** active suggestions\n\nAsk about gates, congestion, evacuation, security, incidents, agents, or traffic.`;
 }
 
 export async function generateOperatorResponse(
   message: string,
-  ctx: AssistantContext,
+  ctx: OperatorContext,
 ): Promise<{ text: string; source: "gemini" | "local" }> {
   const { geminiApiKey: apiKey, geminiModel } = getServerEnv();
+  const contextBlock = buildOperatorContextBlock(ctx);
 
   if (!apiKey) {
     return {
@@ -93,15 +84,15 @@ export async function generateOperatorResponse(
           role: "user",
           parts: [
             {
-              text: `${SYSTEM_PROMPT}\n\n${buildContextBlock(ctx)}\n\nOperator query: ${message}`,
+              text: `${SYSTEM_PROMPT}\n\n--- LIVE OPERATIONS DATABASE ---\n${contextBlock}\n\n--- OPERATOR QUERY ---\n${message}`,
             },
           ],
         },
       ],
     });
-    const text = result.response.text();
+    const text = result.response.text()?.trim();
     return {
-      text: text?.trim() || localFallbackResponse(message, ctx),
+      text: text || localFallbackResponse(message, ctx),
       source: "gemini",
     };
   } catch (error) {

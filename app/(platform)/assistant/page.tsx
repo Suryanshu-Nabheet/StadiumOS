@@ -1,5 +1,7 @@
 import { OperatorChat } from "@/components/assistant/operator-chat";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "AI Assistant" };
 
 export default function AssistantPage() {

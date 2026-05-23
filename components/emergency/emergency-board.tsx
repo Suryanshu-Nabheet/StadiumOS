@@ -3,13 +3,45 @@
 import { Panel } from "@/components/ui/panel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { useStadium } from "@/hooks/use-stadium";
 import { severityToBadge } from "@/lib/status";
 import { StadiumMap } from "@/components/twin/stadium-map";
-import { FileText } from "lucide-react";
+import { FileText, Siren } from "lucide-react";
 
 export function EmergencyBoard() {
-  const { emergencies } = useStadium();
+  const { emergencies, dispatchIncident, appendTimeline } = useStadium();
+
+  const handleReport = (inc: (typeof emergencies)[0]) => {
+    const report = [
+      `Incident: ${inc.title}`,
+      `Location: ${inc.location}`,
+      `Severity: ${inc.severity} | Status: ${inc.status}`,
+      `Summary: ${inc.summary}`,
+      `Fastest path: ${inc.fastestPath}`,
+      `Evacuation impact: ${inc.evacuationImpact}%`,
+    ].join("\n");
+    void navigator.clipboard.writeText(report);
+    appendTimeline(`Incident report copied — ${inc.id}`, "info");
+  };
+
+  if (emergencies.length === 0) {
+    return (
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <EmptyState
+            icon={Siren}
+            title="No active incidents"
+            description="Live simulation will surface emergencies when detected."
+          />
+        </div>
+        <Panel>
+          <h3 className="mb-4 text-sm font-semibold text-slate-900">Incident map</h3>
+          <StadiumMap showIncidents className="w-full rounded-lg" />
+        </Panel>
+      </div>
+    );
+  }
 
   return (
     <div className="grid gap-6 lg:grid-cols-3">
@@ -20,7 +52,7 @@ export function EmergencyBoard() {
               <div>
                 <div className="flex flex-wrap gap-2">
                   <Badge variant={severityToBadge(inc.severity)}>
-                    {inc.type.replace("_", " ")}
+                    {inc.type.replace(/_/g, " ")}
                   </Badge>
                   <Badge variant="neutral">{inc.status}</Badge>
                 </div>
@@ -56,11 +88,23 @@ export function EmergencyBoard() {
               </div>
             </div>
             <div className="mt-4 flex gap-2">
-              <Button size="sm" variant="outline">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleReport(inc)}
+              >
                 <FileText className="h-3.5 w-3.5" />
                 Incident report
               </Button>
-              <Button size="sm">Dispatch {inc.assignedTeam}</Button>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => dispatchIncident(inc.id)}
+                disabled={inc.status === "responding"}
+              >
+                Dispatch {inc.assignedTeam}
+              </Button>
             </div>
           </Panel>
         ))}

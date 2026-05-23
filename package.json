@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "bash scripts/setup.sh",
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

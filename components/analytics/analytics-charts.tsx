@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Panel, PanelHeader } from "@/components/ui/panel";
 import { ChartContainer } from "@/components/ui/chart-container";
 import { useStadium } from "@/hooks/use-stadium";
@@ -22,32 +23,36 @@ import {
   YAxis,
 } from "recharts";
 
-const hourlyData = [
-  { hour: "18:00", density: 42 },
-  { hour: "19:00", density: 68 },
-  { hour: "20:00", density: 85 },
-  { hour: "21:00", density: 78 },
-  { hour: "22:00", density: 55 },
-];
-
-const evacData = [
-  { sector: "North", probability: 96 },
-  { sector: "East", probability: 88 },
-  { sector: "South", probability: 72 },
-  { sector: "West", probability: 91 },
-];
-
 export function AnalyticsCharts() {
   const { snapshot } = useStadium();
+
+  const hourlyData = useMemo(() => {
+    const base = snapshot.occupancyPercent;
+    return [
+      { hour: "18:00", density: Math.round(base * 0.48) },
+      { hour: "19:00", density: Math.round(base * 0.78) },
+      { hour: "20:00", density: Math.round(base * 0.98) },
+      { hour: "21:00", density: Math.round(base) },
+      { hour: "22:00", density: Math.round(base * 0.7) },
+    ];
+  }, [snapshot.occupancyPercent]);
+
   const throughput = snapshot.gates.map((g) => ({
-    gate: g.name.split("—")[0]?.trim().slice(0, 6) ?? g.id,
+    gate: g.name.split("—")[0]?.trim().slice(0, 8) ?? g.id,
     throughput: g.throughput,
   }));
+
+  const evacData = useMemo(() => {
+    return snapshot.stands.slice(0, 4).map((st) => ({
+      sector: st.name.split("—")[0]?.trim().slice(0, 10) ?? st.id,
+      probability: Math.round(100 - st.density * 0.35),
+    }));
+  }, [snapshot.stands]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <Panel>
-        <PanelHeader title="Density trend" description="Match-day hourly" />
+        <PanelHeader title="Density trend" description="Match-day hourly (live-adjusted)" />
         <ChartContainer>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={hourlyData}>
@@ -68,7 +73,7 @@ export function AnalyticsCharts() {
       </Panel>
 
       <Panel>
-        <PanelHeader title="Gate throughput" description="Fans per minute" />
+        <PanelHeader title="Gate throughput" description="Fans per minute (live)" />
         <ChartContainer>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={throughput}>
@@ -85,7 +90,7 @@ export function AnalyticsCharts() {
       <Panel>
         <PanelHeader
           title="Evacuation readiness"
-          description="Success probability by sector"
+          description="By stand sector (live density)"
         />
         <ChartContainer>
           <ResponsiveContainer width="100%" height="100%">
