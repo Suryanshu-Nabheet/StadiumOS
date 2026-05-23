@@ -1,56 +1,40 @@
 "use client";
 
-import { GlassCard } from "@/components/ui/glass-card";
+import { Panel, PanelHeader } from "@/components/ui/panel";
 import { useStadium } from "@/hooks/use-stadium";
-import { motion } from "framer-motion";
 
 export function CrowdHeatmap() {
   const { snapshot } = useStadium();
 
   return (
-    <GlassCard glow className="h-full">
-      <div className="mb-4 flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-white">AI Crowd Heatmap</h3>
-          <p className="text-xs text-zinc-500">Live density fusion · 3s refresh</p>
-        </div>
-        <div className="flex gap-2 text-[10px] text-zinc-500">
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" /> Low
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-amber-500" /> Med
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-red-500" /> Critical
-          </span>
-        </div>
-      </div>
+    <Panel className="h-full">
+      <PanelHeader
+        title="Crowd density"
+        description="Live heatmap · updates every few seconds"
+      />
       <div
-        className="grid gap-0.5 rounded-xl border border-white/5 bg-black/40 p-2"
+        className="grid gap-0.5 rounded-lg border border-slate-100 bg-slate-50 p-2"
         style={{ gridTemplateColumns: "repeat(16, minmax(0, 1fr))" }}
       >
         {snapshot.heatmap.map((cell) => {
-          const hue =
-            cell.intensity > 0.75
-              ? "rgba(239,68,68,"
-              : cell.intensity > 0.5
-                ? "rgba(245,158,11,"
-                : cell.intensity > 0.3
-                  ? "rgba(34,211,238,"
-                  : "rgba(59,130,246,";
+          const opacity = 0.15 + cell.intensity * 0.75;
           return (
-            <motion.div
+            <div
               key={`${cell.x}-${cell.y}`}
-              animate={{
-                backgroundColor: `${hue}${0.2 + cell.intensity * 0.7})`,
+              className="aspect-square rounded-sm transition-colors duration-700"
+              style={{
+                backgroundColor: `rgba(14, 165, 233, ${opacity})`,
               }}
-              transition={{ duration: 0.8 }}
-              className="aspect-square rounded-sm"
             />
           );
         })}
       </div>
-    </GlassCard>
+      <div className="mt-3 flex gap-4 text-[11px] text-slate-500">
+        <span>Low</span>
+        <span className="text-sky-300">■</span>
+        <span>High</span>
+        <span className="text-sky-600">■</span>
+      </div>
+    </Panel>
   );
 }

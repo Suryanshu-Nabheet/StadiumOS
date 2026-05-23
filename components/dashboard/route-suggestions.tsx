@@ -1,41 +1,35 @@
 "use client";
 
-import { GlassCard } from "@/components/ui/glass-card";
+import { Panel, PanelHeader } from "@/components/ui/panel";
 import { Badge } from "@/components/ui/badge";
 import { useStadium } from "@/hooks/use-stadium";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function RouteSuggestions() {
   const { snapshot } = useStadium();
 
   return (
-    <GlassCard glow>
-      <div className="mb-4 flex items-center gap-2">
-        <Sparkles className="h-4 w-4 text-cyan-400" />
-        <h3 className="text-sm font-semibold text-white">AI Rerouting Suggestions</h3>
-      </div>
+    <Panel>
+      <PanelHeader title="Rerouting" description="AI-suggested crowd paths" />
       <div className="space-y-3">
         {snapshot.routes.map((route) => (
           <div
             key={route.id}
-            className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-4"
+            className="rounded-lg border border-sky-100 bg-sky-50/50 p-4"
           >
-            <div className="flex items-center gap-2 text-sm text-white">
+            <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
               <span>{route.from}</span>
-              <ArrowRight className="h-4 w-4 text-cyan-400" />
+              <ArrowRight className="h-4 w-4 text-sky-500" />
               <span>{route.to}</span>
             </div>
-            <p className="mt-2 text-xs text-zinc-400">{route.reason}</p>
+            <p className="mt-2 text-sm text-slate-600">{route.reason}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Badge variant="success">{route.impact}</Badge>
-              <Badge variant="purple">{route.confidence}% AI confidence</Badge>
-              <Badge variant={route.priority === "high" ? "danger" : "warning"}>
-                {route.priority}
-              </Badge>
+              <Badge variant="default">{route.confidence}% confidence</Badge>
             </div>
           </div>
         ))}
       </div>
-    </GlassCard>
+    </Panel>
   );
 }

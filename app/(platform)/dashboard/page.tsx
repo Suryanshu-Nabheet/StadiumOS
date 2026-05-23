@@ -7,34 +7,28 @@ import { GatePressure } from "@/components/dashboard/gate-pressure";
 import { RouteSuggestions } from "@/components/dashboard/route-suggestions";
 import { StadiumMap } from "@/components/twin/stadium-map";
 import { TrafficPanel } from "@/components/dashboard/traffic-panel";
+import { PageHeader } from "@/components/layout/page-header";
+import { Panel } from "@/components/ui/panel";
 
-export const metadata = {
-  title: "Command Center",
-};
+export const metadata = { title: "Command Center" };
 
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight text-white">
-          Command Center
-        </h2>
-        <p className="text-sm text-zinc-500">
-          Real-time stadium intelligence · AI agents active
-        </p>
-      </div>
+      <PageHeader
+        title="Command center"
+        description="Live stadium intelligence and AI agent activity"
+      />
 
       <KpiGrid />
 
       <div className="grid gap-6 xl:grid-cols-12">
-        <div className="xl:col-span-8">
-          <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-            <h3 className="mb-3 text-sm font-semibold text-white">
-              Live Stadium Digital Twin
-            </h3>
-            <StadiumMap showIncidents showRoutes className="w-full" />
-          </div>
-        </div>
+        <Panel padding="md" className="xl:col-span-8">
+          <h3 className="mb-3 text-sm font-semibold text-slate-900">
+            Stadium map
+          </h3>
+          <StadiumMap showIncidents showRoutes className="w-full" />
+        </Panel>
         <div className="space-y-6 xl:col-span-4">
           <EmergencyAlerts />
           <TrafficPanel />

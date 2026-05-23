@@ -1,141 +1,107 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  ArrowRight,
-  Bot,
-  Map,
-  Radio,
-  Shield,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { Logo, GdgLogo } from "@/components/brand/logo";
+import { ArrowRight, Map, Shield, Bot, Activity } from "lucide-react";
 
 const features = [
   {
     icon: Map,
-    title: "Digital Twin Stadium",
-    desc: "Live SVG twin with gates, stands, exits, and incident overlays.",
+    title: "Digital twin",
+    desc: "Live stadium map with gates, stands, and incident overlays.",
   },
   {
-    icon: Zap,
-    title: "AI Crowd Flow Engine",
-    desc: "Predict overcrowding and autonomously reroute fan movement.",
+    icon: Activity,
+    title: "Crowd flow AI",
+    desc: "Predict congestion and reroute fans across entry points.",
   },
   {
     icon: Shield,
-    title: "Emergency Response Agents",
-    desc: "Detect, dispatch, and simulate evacuation impact in seconds.",
+    title: "Emergency response",
+    desc: "Detect incidents, dispatch teams, model evacuation impact.",
   },
   {
     icon: Bot,
-    title: "Operator AI Assistant",
-    desc: "Gemini-powered command copilot with local intelligence fallback.",
+    title: "Operator assistant",
+    desc: "AI copilot for gates, security, and incident reporting.",
   },
 ];
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#030308]">
-      <div className="pointer-events-none absolute inset-0 grid-overlay opacity-60" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[120px]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[400px] w-[500px] rounded-full bg-purple-600/10 blur-[100px]" />
-
-      <nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600">
-            <Radio className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-lg font-bold text-white">
-            StadiumOS <span className="text-cyan-400">AI</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <Image src="/GDG.png" alt="GDG" width={80} height={32} className="opacity-80" />
-          <Link href="/dashboard">
-            <Button>
-              Enter Command Center
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      </nav>
-
-      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-12">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <Badge variant="live" className="mb-6">
-            GDG Hackathon · Enterprise AI Platform
-          </Badge>
-          <h1 className="mx-auto max-w-4xl text-5xl font-bold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl">
-            The AI Operating System for{" "}
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Stadium Operations
-            </span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-400">
-            Real-time crowd intelligence, autonomous emergency response, and
-            predictive command center analytics for IPL-scale cricket events.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+    <div className="min-h-screen bg-[var(--background)]">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <Logo size="md" href="/" />
+          <div className="flex items-center gap-5">
+            <GdgLogo />
             <Link href="/dashboard">
-              <Button size="lg">
-                <Sparkles className="h-5 w-5" />
-                Launch Command Center
+              <Button>
+                Command center
+                <ArrowRight className="h-4 w-4" />
               </Button>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <div className="max-w-2xl">
+          <Badge variant="neutral" className="mb-4">
+            GDG Hackathon
+          </Badge>
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl">
+            Stadium operations, powered by{" "}
+            <span className="text-sky-600">real-time AI</span>
+          </h1>
+          <p className="mt-4 text-lg leading-relaxed text-slate-600">
+            Crowd intelligence and emergency coordination for IPL-scale cricket
+            venues — one command platform for density, routing, and response.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/dashboard">
+              <Button size="lg">Open command center</Button>
             </Link>
             <Link href="/assistant">
               <Button size="lg" variant="outline">
-                Talk to AI Assistant
+                AI assistant
               </Button>
             </Link>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative mx-auto mt-16 max-w-5xl overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-cyan-500/10"
-        >
+        <div className="mt-14 flex items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-sky-50 to-white px-8 py-16 shadow-sm">
           <Image
-            src="/Banner.png"
-            alt="StadiumOS AI Command Center"
-            width={1200}
-            height={600}
-            className="w-full object-cover"
+            src="/favicon.svg"
+            alt="StadiumOS"
+            width={120}
+            height={120}
+            className="drop-shadow-md"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030308] via-transparent to-transparent" />
-        </motion.div>
+        </div>
 
-        <div className="mt-24 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => (
-            <motion.div
+        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((f) => (
+            <div
               key={f.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl"
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
             >
-              <f.icon className="mb-4 h-8 w-8 text-cyan-400" />
-              <h3 className="font-semibold text-white">{f.title}</h3>
-              <p className="mt-2 text-sm text-zinc-500">{f.desc}</p>
-            </motion.div>
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+                <f.icon className="h-4 w-4" />
+              </div>
+              <h3 className="font-medium text-slate-900">{f.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-500">
+                {f.desc}
+              </p>
+            </div>
           ))}
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-white/10 py-8 text-center text-xs text-zinc-600">
-        StadiumOS AI · Built for GDG Hackathon · Google Cloud ready
+      <footer className="border-t border-slate-200 bg-white py-6 text-center text-sm text-slate-500">
+        StadiumOS AI · GDG Hackathon
       </footer>
     </div>
   );

@@ -8,12 +8,14 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid-overlay flex h-screen overflow-hidden bg-[#030308]">
+    <div className="app-shell flex h-screen overflow-hidden">
       <SimulationBoot />
       <PlatformSidebar />
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <MatchHeader />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto bg-[var(--background)] p-6">
+          {children}
+        </main>
       </div>
     </div>
   );

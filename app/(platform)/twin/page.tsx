@@ -1,43 +1,47 @@
 "use client";
 
 import { StadiumMap } from "@/components/twin/stadium-map";
-import { GlassCard } from "@/components/ui/glass-card";
+import { Panel } from "@/components/ui/panel";
+import { PageHeader } from "@/components/layout/page-header";
 import { useStadium } from "@/hooks/use-stadium";
-import { gates, stands, emergencyExits, medicalZones, parkingZones } from "@/config/stadium";
+import {
+  gates,
+  stands,
+  emergencyExits,
+  medicalZones,
+  parkingZones,
+} from "@/config/stadium";
 
 export default function TwinPage() {
   const { snapshot } = useStadium();
 
+  const stats = [
+    { label: "Gates", count: gates.length },
+    { label: "Stands", count: stands.length },
+    { label: "Exits", count: emergencyExits.length },
+    { label: "Medical", count: medicalZones.length },
+    { label: "Parking", count: parkingZones.length },
+    { label: "Heatmap cells", count: snapshot.heatmap.length },
+  ];
+
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-white">Digital Twin Stadium</h2>
-        <p className="text-sm text-zinc-500">
-          Live movement · congestion · incidents · evacuation paths
-        </p>
-      </div>
-      <GlassCard glow className="!p-6">
+      <PageHeader
+        title="Digital twin"
+        description="Live congestion, incidents, and facility layout"
+      />
+      <Panel padding="md">
         <StadiumMap showIncidents showRoutes className="w-full" />
-      </GlassCard>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          { label: "Gates", count: gates.length, color: "text-cyan-400" },
-          { label: "Stands", count: stands.length, color: "text-blue-400" },
-          { label: "Exits", count: emergencyExits.length, color: "text-emerald-400" },
-          { label: "Medical", count: medicalZones.length, color: "text-pink-400" },
-          { label: "Parking", count: parkingZones.length, color: "text-amber-400" },
-        ].map((item) => (
-          <GlassCard key={item.label} className="!p-4 text-center">
-            <p className={`text-3xl font-bold ${item.color}`}>{item.count}</p>
-            <p className="text-xs text-zinc-500">{item.label} monitored</p>
-          </GlassCard>
+      </Panel>
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+        {stats.map((item) => (
+          <Panel key={item.label} padding="sm" className="text-center">
+            <p className="text-2xl font-semibold tabular-nums text-sky-600">
+              {item.count}
+            </p>
+            <p className="mt-1 text-xs text-slate-500">{item.label}</p>
+          </Panel>
         ))}
-        <GlassCard className="!p-4 text-center">
-          <p className="text-3xl font-bold text-purple-400">
-            {snapshot.heatmap.length}
-          </p>
-          <p className="text-xs text-zinc-500">Heatmap cells live</p>
-        </GlassCard>
       </div>
     </div>
   );

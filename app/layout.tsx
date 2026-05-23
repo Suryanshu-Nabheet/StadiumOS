@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | StadiumOS AI",
   },
   description:
-    "AI-powered stadium crowd intelligence and emergency response platform for IPL-scale cricket events.",
+    "AI-powered stadium crowd intelligence and emergency response for large-scale cricket events.",
   icons: {
     icon: "/favicon.svg",
   },
@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} dark h-full`}>
-      <body className="min-h-full bg-[#030308] text-zinc-100 antialiased">
+    <html lang="en" className={`${geistSans.variable} h-full`}>
+      <body className="min-h-full bg-[var(--background)] text-slate-900 antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

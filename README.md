@@ -4,7 +4,7 @@
 
 Built for **GDG Hackathon** — Google Cloud deployment ready.
 
-![StadiumOS AI](./public/Banner.png)
+Brand assets: `public/favicon.svg` · `public/gdg.svg`
 
 ## Quick start
 

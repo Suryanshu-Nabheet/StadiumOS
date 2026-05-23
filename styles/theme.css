@@ -1,4 +1,4 @@
 /**
- * Design tokens — mirrored in app/globals.css for Tailwind/PostCSS.
- * Edit app/globals.css :root when changing theme values.
+ * Design tokens — canonical source: app/globals.css :root
+ * Favicon brand: #0ea5e9 → #2563eb on white surfaces
  */

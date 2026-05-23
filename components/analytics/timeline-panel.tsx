@@ -1,41 +1,36 @@
 "use client";
 
-import { GlassCard } from "@/components/ui/glass-card";
+import { Panel, PanelHeader } from "@/components/ui/panel";
 import { useStadium } from "@/hooks/use-stadium";
+import { cn } from "@/lib/utils";
 
-const typeColors: Record<string, string> = {
-  info: "border-cyan-500/30 bg-cyan-500/5",
-  warning: "border-amber-500/30 bg-amber-500/5",
-  ai: "border-purple-500/30 bg-purple-500/5",
-  critical: "border-red-500/30 bg-red-500/5",
+const typeStyles: Record<string, string> = {
+  info: "border-l-sky-500 bg-white",
+  warning: "border-l-amber-500 bg-white",
+  ai: "border-l-sky-600 bg-sky-50/30",
+  critical: "border-l-red-500 bg-red-50/30",
 };
 
 export function TimelinePanel() {
   const { timeline } = useStadium();
 
   return (
-    <GlassCard>
-      <h3 className="mb-4 text-sm font-semibold text-white">
-        Match-Day Operational Timeline
-      </h3>
-      <div className="relative space-y-0">
+    <Panel>
+      <PanelHeader title="Operations timeline" description="Match-day log" />
+      <div className="space-y-3">
         {timeline.map((item, i) => (
-          <div key={i} className="flex gap-4 pb-6 last:pb-0">
-            <div className="flex flex-col items-center">
-              <div className="h-3 w-3 rounded-full bg-cyan-500 shadow-lg shadow-cyan-500/50" />
-              {i < timeline.length - 1 && (
-                <div className="mt-1 w-px flex-1 bg-white/10" />
-              )}
-            </div>
-            <div
-              className={`flex-1 rounded-xl border p-4 ${typeColors[item.type] ?? typeColors.info}`}
-            >
-              <p className="font-mono text-xs text-cyan-400">{item.time}</p>
-              <p className="mt-1 text-sm text-zinc-200">{item.event}</p>
-            </div>
+          <div
+            key={i}
+            className={cn(
+              "rounded-r-lg border border-slate-100 border-l-4 px-4 py-3",
+              typeStyles[item.type] ?? typeStyles.info,
+            )}
+          >
+            <p className="font-mono text-xs font-medium text-sky-700">{item.time}</p>
+            <p className="mt-1 text-sm text-slate-700">{item.event}</p>
           </div>
         ))}
       </div>
-    </GlassCard>
+    </Panel>
   );
 }

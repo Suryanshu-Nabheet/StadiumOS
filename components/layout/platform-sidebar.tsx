@@ -8,11 +8,11 @@ import {
   GitBranch,
   LayoutDashboard,
   Map,
-  Radio,
   Siren,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/config/site";
+import { Logo, GdgLogo } from "@/components/brand/logo";
 
 const iconMap = {
   LayoutDashboard,
@@ -27,23 +27,14 @@ export function PlatformSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-64 flex-col border-r border-white/10 bg-black/40 backdrop-blur-xl">
-      <div className="border-b border-white/10 p-5">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/30">
-            <Radio className="h-5 w-5 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-bold tracking-tight text-white">
-              StadiumOS <span className="text-cyan-400">AI</span>
-            </p>
-            <p className="text-[10px] uppercase tracking-widest text-zinc-500">
-              Command Platform
-            </p>
-          </div>
-        </Link>
+    <aside className="flex h-full w-60 flex-col border-r border-slate-200 bg-white">
+      <div className="border-b border-slate-100 px-4 py-4">
+        <Logo size="md" href="/" />
+        <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
+          Operations
+        </p>
       </div>
-      <nav className="flex-1 space-y-1 p-3">
+      <nav className="flex-1 space-y-0.5 p-3">
         {navItems.map((item) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap];
           const active = pathname === item.href;
@@ -52,25 +43,28 @@ export function PlatformSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all",
+                "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 active
-                  ? "bg-gradient-to-r from-cyan-500/20 to-blue-600/10 text-cyan-300 shadow-inner shadow-cyan-500/10"
-                  : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200",
+                  ? "bg-sky-50 text-sky-700"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
               )}
             >
-              <Icon className="h-4 w-4 shrink-0" />
+              <Icon
+                className={cn(
+                  "h-4 w-4 shrink-0",
+                  active ? "text-sky-600" : "text-slate-400",
+                )}
+              />
               {item.label}
             </Link>
           );
         })}
       </nav>
-      <div className="border-t border-white/10 p-4">
-        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3">
-          <p className="text-[10px] uppercase tracking-wider text-emerald-400">
-            Simulation Engine
-          </p>
-          <p className="mt-1 text-xs text-zinc-400">Live mock telemetry active</p>
-        </div>
+      <div className="border-t border-slate-100 p-4 space-y-3">
+        <GdgLogo />
+        <p className="text-[11px] text-slate-500">
+          Live simulation · mock telemetry
+        </p>
       </div>
     </aside>
   );

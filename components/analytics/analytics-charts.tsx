@@ -1,6 +1,6 @@
 "use client";
 
-import { GlassCard } from "@/components/ui/glass-card";
+import { Panel, PanelHeader } from "@/components/ui/panel";
 import { useStadium } from "@/hooks/use-stadium";
 import {
   Bar,
@@ -12,7 +12,6 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-  Legend,
 } from "recharts";
 
 const hourlyData = [
@@ -35,73 +34,97 @@ export function AnalyticsCharts() {
   const throughput = snapshot.gates.map((g) => ({
     gate: g.name.split("—")[0]?.trim().slice(0, 6) ?? g.id,
     throughput: g.throughput,
-    wait: g.waitMinutes,
   }));
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <GlassCard>
-        <h3 className="mb-4 text-sm font-semibold text-white">Crowd Density Trends</h3>
+      <Panel>
+        <PanelHeader title="Density trend" description="Match-day hourly" />
         <div className="h-64 min-h-[256px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%" minHeight={256}>
             <LineChart data={hourlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis dataKey="hour" tick={{ fill: "#71717a", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#71717a", fontSize: 11 }} />
-              <Tooltip contentStyle={{ background: "#09090b", border: "1px solid #ffffff20", borderRadius: 12 }} />
-              <Legend />
-              <Line type="monotone" dataKey="density" stroke="#22d3ee" strokeWidth={2} dot={false} name="Density %" />
-              <Line type="monotone" dataKey="incidents" stroke="#ef4444" strokeWidth={2} name="Incidents" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 11 }} />
+              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
+              <Tooltip
+                contentStyle={{
+                  background: "#fff",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: 8,
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="density"
+                stroke="#0ea5e9"
+                strokeWidth={2}
+                dot={false}
+                name="Density %"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
-      </GlassCard>
+      </Panel>
 
-      <GlassCard>
-        <h3 className="mb-4 text-sm font-semibold text-white">Gate Throughput</h3>
+      <Panel>
+        <PanelHeader title="Gate throughput" description="Fans per minute" />
         <div className="h-64 min-h-[256px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%" minHeight={256}>
             <BarChart data={throughput}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis dataKey="gate" tick={{ fill: "#71717a", fontSize: 10 }} />
-              <YAxis tick={{ fill: "#71717a", fontSize: 11 }} />
-              <Tooltip contentStyle={{ background: "#09090b", border: "1px solid #ffffff20", borderRadius: 12 }} />
-              <Bar dataKey="throughput" fill="#8b5cf6" radius={[4, 4, 0, 0]} name="Fans/min" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="gate" tick={{ fill: "#64748b", fontSize: 10 }} />
+              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
+              <Tooltip
+                contentStyle={{
+                  background: "#fff",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: 8,
+                }}
+              />
+              <Bar dataKey="throughput" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </GlassCard>
+      </Panel>
 
-      <GlassCard>
-        <h3 className="mb-4 text-sm font-semibold text-white">Evacuation Success Probability</h3>
+      <Panel>
+        <PanelHeader title="Evacuation readiness" description="Success probability by sector" />
         <div className="h-64 min-h-[256px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%" minHeight={256}>
             <BarChart data={evacData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis type="number" domain={[0, 100]} tick={{ fill: "#71717a", fontSize: 11 }} />
-              <YAxis dataKey="sector" type="category" tick={{ fill: "#71717a", fontSize: 11 }} width={60} />
-              <Tooltip contentStyle={{ background: "#09090b", border: "1px solid #ffffff20", borderRadius: 12 }} />
-              <Bar dataKey="probability" fill="#10b981" radius={[0, 4, 4, 0]} name="Success %" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis type="number" domain={[0, 100]} tick={{ fill: "#64748b", fontSize: 11 }} />
+              <YAxis dataKey="sector" type="category" tick={{ fill: "#64748b", fontSize: 11 }} width={56} />
+              <Tooltip
+                contentStyle={{
+                  background: "#fff",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: 8,
+                }}
+              />
+              <Bar dataKey="probability" fill="#10b981" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </GlassCard>
+      </Panel>
 
-      <GlassCard>
-        <h3 className="mb-4 text-sm font-semibold text-white">AI Confidence & Stress</h3>
+      <Panel>
+        <PanelHeader title="AI metrics" description="Live scores" />
         <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-6 text-center">
-            <p className="text-4xl font-bold text-cyan-400">
+          <div className="rounded-lg border border-sky-100 bg-sky-50 p-6 text-center">
+            <p className="text-3xl font-semibold tabular-nums text-sky-600">
               {snapshot.aiConfidence.toFixed(1)}%
             </p>
-            <p className="mt-2 text-xs text-zinc-500">AI Confidence Meter</p>
+            <p className="mt-1 text-xs text-slate-500">AI confidence</p>
           </div>
-          <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-6 text-center">
-            <p className="text-4xl font-bold text-red-400">{snapshot.crowdStressScore}</p>
-            <p className="mt-2 text-xs text-zinc-500">Crowd Stress Score</p>
+          <div className="rounded-lg border border-red-100 bg-red-50 p-6 text-center">
+            <p className="text-3xl font-semibold tabular-nums text-red-600">
+              {snapshot.crowdStressScore}
+            </p>
+            <p className="mt-1 text-xs text-slate-500">Crowd stress</p>
           </div>
         </div>
-      </GlassCard>
+      </Panel>
     </div>
   );
 }

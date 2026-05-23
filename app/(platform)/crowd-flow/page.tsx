@@ -3,22 +3,22 @@ import { RouteSuggestions } from "@/components/dashboard/route-suggestions";
 import { GatePressure } from "@/components/dashboard/gate-pressure";
 import { CongestionChart } from "@/components/dashboard/congestion-chart";
 import { StadiumMap } from "@/components/twin/stadium-map";
+import { PageHeader } from "@/components/layout/page-header";
+import { Panel } from "@/components/ui/panel";
 
 export const metadata = { title: "Crowd Flow AI" };
 
 export default function CrowdFlowPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-white">AI Crowd Flow Engine</h2>
-        <p className="text-sm text-zinc-500">
-          Predictive overcrowding · dynamic rerouting · panic-risk detection
-        </p>
-      </div>
+      <PageHeader
+        title="Crowd flow"
+        description="Overcrowding prediction, rerouting, and panic-risk zones"
+      />
+      <Panel padding="md">
+        <StadiumMap showRoutes className="w-full max-h-[420px]" />
+      </Panel>
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-black/20 p-4 lg:col-span-2">
-          <StadiumMap showRoutes className="w-full max-h-[420px]" />
-        </div>
         <CrowdHeatmap />
         <CongestionChart />
         <RouteSuggestions />
