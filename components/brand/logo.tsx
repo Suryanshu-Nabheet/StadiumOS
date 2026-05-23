@@ -36,7 +36,7 @@ export function Logo({
       {showText && (
         <span className={cn("font-semibold leading-none text-slate-900", s.text)}>
           StadiumOS
-          <span className={cn("font-semibold text-sky-600", s.ai)}> AI</span>
+          <span className={cn("font-semibold text-sky-600", s.text)}> AI</span>
         </span>
       )}
     </div>

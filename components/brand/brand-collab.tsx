@@ -91,7 +91,10 @@ export function BrandCollab({
         )}
       >
         StadiumOS
-        <span className={cn("text-sky-600", s.ai, s.weight)}> AI</span>
+        <span className={cn("font-semibold text-sky-600", s.title, s.weight)}>
+          {" "}
+          AI
+        </span>
       </span>
       {showDivider && (
         <span

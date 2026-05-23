@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { BrandCollab } from "@/components/brand/brand-collab";
+import { NavbarBrand } from "@/components/brand/navbar-brand";
 import { MotionLink } from "@/components/motion/motion-link";
 import { SmoothScrollLink } from "@/components/motion/smooth-scroll-link";
 import { Button } from "@/components/ui/button";
@@ -32,35 +32,37 @@ export function LandingNavbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         className={cn(
-          "pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl px-4 py-2.5 md:px-5 md:py-3",
+          "pointer-events-auto mx-auto w-full max-w-6xl rounded-2xl px-4 py-2.5 md:px-5 md:py-2.5",
           "glass-surface-strong transition-shadow duration-300",
           scrolled && "shadow-lg shadow-sky-500/10",
         )}
         aria-label="Primary"
       >
-        <div className="min-w-0 flex-1">
-          <BrandCollab size="nav" href="/" />
-        </div>
+        <div className="flex h-11 items-center justify-between gap-3 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4">
+          <div className="min-w-0 justify-self-start">
+            <NavbarBrand />
+          </div>
 
-        <div className="hidden shrink-0 items-center gap-1 md:flex">
-          {links.map((link) => (
-            <SmoothScrollLink
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-white/60 hover:text-slate-900"
-            >
-              {link.label}
-            </SmoothScrollLink>
-          ))}
-        </div>
+          <div className="hidden items-center justify-center gap-0.5 justify-self-center md:flex">
+            {links.map((link) => (
+              <SmoothScrollLink
+                key={link.href}
+                href={link.href}
+                className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-white/70 hover:text-slate-900"
+              >
+                {link.label}
+              </SmoothScrollLink>
+            ))}
+          </div>
 
-        <div className="shrink-0">
-          <MotionLink href="/dashboard">
-            <Button size="sm" className="h-9 px-4 text-sm font-medium shadow-sm">
-              Command center
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </MotionLink>
+          <div className="flex shrink-0 items-center justify-end justify-self-end">
+            <MotionLink href="/dashboard">
+              <Button className="h-9 shrink-0 px-4 text-sm font-medium shadow-sm">
+                Command center
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </MotionLink>
+          </div>
         </div>
       </motion.nav>
     </header>
