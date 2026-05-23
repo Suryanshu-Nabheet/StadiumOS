@@ -18,7 +18,7 @@ Or use `./scripts/*.sh` wrappers — see [Scripts](./scripts.md).
 
 1. Create page: `app/(platform)/your-module/page.tsx`
 2. Add nav item: `config/site.ts` → `navItems`
-3. Add icon mapping: `components/layout/platform-sidebar.tsx`
+3. Add icon mapping: `components/layout/app-sidebar.tsx`
 4. Build components under `components/your-module/`
 5. Document route in `docs/README.md`
 

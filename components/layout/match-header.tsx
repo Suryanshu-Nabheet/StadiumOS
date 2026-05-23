@@ -2,6 +2,8 @@
 
 import { LiveIndicator } from "@/components/ui/live-indicator";
 import { StatBlock } from "@/components/ui/stat-block";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { useStadium } from "@/hooks/use-stadium";
 import { formatNumber } from "@/lib/utils";
@@ -12,39 +14,51 @@ export function MatchHeader() {
   const { match } = siteConfig;
 
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-3">
-      <div>
-        <div className="flex items-center gap-2">
-          <LiveIndicator />
-          <span className="text-xs text-slate-500">{match.inning}</span>
+    <header className="sticky top-0 z-20 shrink-0 border-b border-sidebar-border bg-white/90 backdrop-blur-md">
+      <div className="flex flex-col gap-4 px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
+        <div className="flex min-w-0 items-start gap-2.5 md:items-center md:gap-3">
+          <SidebarTrigger className="mt-0.5 shrink-0 md:mt-0" />
+          <Separator
+            orientation="vertical"
+            className="mt-1 hidden h-10 md:block"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <LiveIndicator />
+              <span className="text-xs text-muted-foreground">
+                {match.inning}
+              </span>
+            </div>
+            <h1 className="mt-0.5 truncate text-base font-semibold text-foreground">
+              {match.title}
+            </h1>
+            <p className="truncate text-sm text-muted-foreground">
+              {match.teams} · {match.venue}
+            </p>
+          </div>
         </div>
-        <h1 className="mt-0.5 text-base font-semibold text-slate-900">
-          {match.title}
-        </h1>
-        <p className="text-sm text-slate-500">
-          {match.teams} · {match.venue}
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-6">
-        <StatBlock
-          icon={Users}
-          label="Occupancy"
-          value={`${formatNumber(snapshot.occupancy)} (${snapshot.occupancyPercent.toFixed(1)}%)`}
-        />
-        <StatBlock
-          icon={Activity}
-          label="AI confidence"
-          value={`${snapshot.aiConfidence.toFixed(1)}%`}
-          valueClassName="text-sky-600"
-        />
-        <StatBlock
-          icon={AlertTriangle}
-          label="Crowd stress"
-          value={`${snapshot.crowdStressScore}/100`}
-          valueClassName={
-            snapshot.crowdStressScore > 70 ? "text-red-600" : "text-amber-600"
-          }
-        />
+
+        <div className="flex gap-5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] md:gap-6 [&::-webkit-scrollbar]:hidden">
+          <StatBlock
+            icon={Users}
+            label="Occupancy"
+            value={`${formatNumber(snapshot.occupancy)} (${snapshot.occupancyPercent.toFixed(1)}%)`}
+          />
+          <StatBlock
+            icon={Activity}
+            label="AI confidence"
+            value={`${snapshot.aiConfidence.toFixed(1)}%`}
+            valueClassName="text-sky-600"
+          />
+          <StatBlock
+            icon={AlertTriangle}
+            label="Crowd stress"
+            value={`${snapshot.crowdStressScore}/100`}
+            valueClassName={
+              snapshot.crowdStressScore > 70 ? "text-red-600" : "text-amber-600"
+            }
+          />
+        </div>
       </div>
     </header>
   );

@@ -19,7 +19,7 @@ export function Panel({
   return (
     <div
       className={cn(
-        "surface-card",
+        "surface-card bg-card text-card-foreground",
         pad,
         layout === "stack" && "flex min-h-0 flex-col",
         className,

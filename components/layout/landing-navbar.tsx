@@ -57,7 +57,7 @@ export function LandingNavbar() {
 
           <div className="flex shrink-0 items-center justify-end justify-self-end">
             <MotionLink href="/dashboard">
-              <Button className="h-9 shrink-0 px-4 text-sm font-medium shadow-sm">
+              <Button size="lg" className="shrink-0 shadow-sm">
                 Command center
                 <ArrowRight className="h-4 w-4" />
               </Button>
