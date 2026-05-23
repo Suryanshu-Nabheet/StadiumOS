@@ -7,11 +7,12 @@ import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/config/site";
 import { useStadium } from "@/hooks/use-stadium";
 import { formatNumber } from "@/lib/utils";
-import { Activity, Users, AlertTriangle } from "lucide-react";
+import { Activity, Users, AlertTriangle, Thermometer } from "lucide-react";
 
 export function MatchHeader() {
   const { snapshot } = useStadium();
   const { match } = siteConfig;
+  const { scoreboard, conditions } = match;
 
   return (
     <header className="sticky top-0 z-20 shrink-0 border-b border-sidebar-border bg-white/90 backdrop-blur-md">
@@ -27,6 +28,10 @@ export function MatchHeader() {
               <LiveIndicator />
               <span className="text-xs text-muted-foreground">
                 {match.inning}
+              </span>
+              <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] text-slate-600">
+                {scoreboard.batting.team} {scoreboard.batting.runs}/{scoreboard.batting.wickets}{" "}
+                · {scoreboard.chasing.team} {scoreboard.chasing.runs}/{scoreboard.chasing.wickets}
               </span>
             </div>
             <h1 className="mt-0.5 truncate text-base font-semibold text-foreground">
@@ -57,6 +62,12 @@ export function MatchHeader() {
             valueClassName={
               snapshot.crowdStressScore > 70 ? "text-red-600" : "text-amber-600"
             }
+          />
+          <StatBlock
+            icon={Thermometer}
+            label="Conditions"
+            value={`${conditions.temperatureC}°C · ${conditions.humidityPct}% RH`}
+            valueClassName="text-slate-700"
           />
         </div>
       </div>

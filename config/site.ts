@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "StadiumOS AI",
   shortName: "StadiumOS",
   description:
-    "AI-powered stadium crowd intelligence and emergency response platform for large-scale cricket events.",
+    "AI-powered stadium crowd intelligence and emergency response for Narendra Modi Stadium, Ahmedabad — IPL-scale cricket operations.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   author: {
     name: "Suryanshu Nabheet",
@@ -13,12 +13,25 @@ export const siteConfig = {
     partner: "Google Developer Groups",
   },
   match: {
-    title: "IPL Final — Night Match",
+    title: "IPL 2026 Final — Night Match",
     teams: "Mumbai Indians vs Chennai Super Kings",
-    venue: "Narendra Modi Stadium, Ahmedabad",
+    venue: "Narendra Modi Stadium, Motera, Ahmedabad",
     capacity: 132_000,
     status: "LIVE" as const,
     inning: "2nd Innings — Over 14.3",
+    scoreboard: {
+      batting: { team: "MI", runs: 186, wickets: 4 },
+      chasing: { team: "CSK", runs: 142, wickets: 6 },
+      requiredRate: 12.4,
+      projectedTotal: 198,
+    },
+    conditions: {
+      temperatureC: 31,
+      humidityPct: 72,
+      wind: "NW 8 km/h",
+      dewRisk: "High after over 16",
+    },
+    timezone: "Asia/Kolkata",
   },
 } as const;
 

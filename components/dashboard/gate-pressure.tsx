@@ -14,7 +14,7 @@ export function GatePressure() {
     <Panel>
       <PanelHeader title="Gate pressure" description="Throughput and wait times" />
       <div className="space-y-4">
-        {sorted.slice(0, 6).map((gate) => (
+        {sorted.map((gate) => (
           <div key={gate.id}>
             <div className="mb-1 flex items-center justify-between">
               <span className="text-sm text-slate-700">{gate.name}</span>

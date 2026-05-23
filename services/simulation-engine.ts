@@ -1,138 +1,134 @@
-import { siteConfig } from "@/config/site";
+import { gates as gateZones, stands as standZones } from "@/config/stadium";
 import type { EmergencyIncident } from "@/types/emergency";
-import type { StadiumSnapshot, ZoneMetrics } from "@/types/stadium";
+import type { StadiumSnapshot } from "@/types/stadium";
 import { clamp, randomBetween } from "@/lib/utils";
+import {
+  CAPACITY,
+  avgGateWait,
+  computeAiConfidence,
+  computeCrowdStress,
+  computeOccupancy,
+  createRouteSuggestions,
+  gateZoneById,
+  mutateGateZone,
+  mutateStandZone,
+  syncHeatmap,
+  totalGateThroughput,
+} from "@/lib/stadium-physics";
 import {
   createAgentFeed,
   createInitialEmergencies,
   createInitialSnapshot,
 } from "@/services/mock-data";
 
-const CAPACITY = siteConfig.match.capacity;
-
-function mutateZones(zones: ZoneMetrics[]): ZoneMetrics[] {
-  return zones.map((z) => {
-    const delta = randomBetween(-6, 6);
-    const density = clamp(z.density + delta, 15, 99);
-    const status =
-      density >= 88
-        ? "critical"
-        : density >= 72
-          ? "congested"
-          : density >= 55
-            ? "elevated"
-            : "normal";
-    return {
-      ...z,
-      density,
-      status,
-      pressure: clamp(z.pressure + randomBetween(-4, 6), 0, 100),
-      waitMinutes: clamp(z.waitMinutes + randomBetween(-2, 3), 1, 35),
-      throughput: Math.round(
-        clamp(z.throughput + randomBetween(-80, 120), 100, 1200),
-      ),
-      trend: delta > 2 ? "up" : delta < -2 ? "down" : "stable",
-    };
-  });
-}
-
-function mutateHeatmap(
-  snapshot: StadiumSnapshot,
-): StadiumSnapshot["heatmap"] {
-  return snapshot.heatmap.map((cell) => ({
-    ...cell,
-    intensity: clamp(cell.intensity + randomBetween(-0.08, 0.08), 0, 1),
-  }));
-}
-
 function syncKpis(
   snapshot: StadiumSnapshot,
   emergencies: EmergencyIncident[],
 ): StadiumSnapshot["kpis"] {
   const activeCount = emergencies.filter((e) => e.status !== "resolved").length;
-  const avgWait =
-    snapshot.gates.reduce((sum, g) => sum + g.waitMinutes, 0) /
-    Math.max(snapshot.gates.length, 1);
+  const avgWait = avgGateWait(snapshot.gates);
+  const throughput = totalGateThroughput(snapshot.gates);
 
   return snapshot.kpis.map((kpi) => {
     if (kpi.label === "Live Occupancy") {
       return { ...kpi, value: snapshot.occupancy };
     }
     if (kpi.label === "Active Incidents") {
-      return { ...kpi, value: activeCount, status: activeCount > 2 ? "congested" : "normal" };
+      return {
+        ...kpi,
+        value: activeCount,
+        status: activeCount > 2 ? "congested" : activeCount > 0 ? "elevated" : "normal",
+      };
     }
     if (kpi.label === "Avg Gate Wait") {
       return { ...kpi, value: avgWait.toFixed(1), unit: "min" };
+    }
+    if (kpi.label === "Throughput / min") {
+      return { ...kpi, value: throughput.toLocaleString("en-IN") };
     }
     return kpi;
   });
 }
 
+const INCIDENT_TEMPLATES: Pick<
+  EmergencyIncident,
+  "type" | "title" | "location" | "summary" | "assignedTeam"
+>[] = [
+  {
+    type: "medical",
+    title: "Medical assist — East Pavilion",
+    location: "East Pavilion — Block B",
+    summary: "Patron collapse reported; nearest first aid team alerted via sensor mesh.",
+    assignedTeam: "Gujarat EMS Unit 8",
+  },
+  {
+    type: "fire_alert",
+    title: "Smoke trace — West Gallery concessions",
+    location: "West Gallery — Concourse L2",
+    summary: "Low-level smoke signature in kitchen zone; fire panel cross-check in progress.",
+    assignedTeam: "Fire Watch 3",
+  },
+  {
+    type: "suspicious_activity",
+    title: "Perimeter breach scan — NW Media",
+    location: "Gate 8 — NW Media",
+    summary: "Secondary screening triggered on RFID mismatch; K9 unit requested.",
+    assignedTeam: "Security Cell 5",
+  },
+];
+
 function maybeAddEmergency(
   incidents: EmergencyIncident[],
 ): EmergencyIncident[] {
-  if (Math.random() > 0.12 || incidents.length >= 6) return incidents;
-  const types = [
-    "medical",
-    "fire_alert",
-    "suspicious_activity",
-  ] as EmergencyIncident["type"][];
-  const type = types[Math.floor(Math.random() * types.length)];
+  if (Math.random() > 0.1 || incidents.length >= 5) return incidents;
+
+  const template =
+    INCIDENT_TEMPLATES[Math.floor(Math.random() * INCIDENT_TEMPLATES.length)];
+  const gate = gateZones[Math.floor(Math.random() * gateZones.length)];
+  const stand = standZones[Math.floor(Math.random() * standZones.length)];
+  const useGate = Math.random() > 0.4;
+
   const newIncident: EmergencyIncident = {
     id: `inc-${Date.now()}`,
-    type,
-    title: `Auto-detected ${type.replace("_", " ")} — Sector ${Math.floor(randomBetween(1, 8))}`,
-    location: `Zone ${String.fromCharCode(65 + Math.floor(randomBetween(0, 4)))}`,
-    severity: randomBetween(0, 1) > 0.5 ? "high" : "medium",
+    type: template.type,
+    title: template.title,
+    location: template.location,
+    severity: randomBetween(0, 1) > 0.55 ? "high" : "medium",
     status: "detected",
     detectedAt: new Date().toISOString(),
-    etaMinutes: Math.round(randomBetween(3, 10)),
-    assignedTeam: `Auto-Unit-${Math.floor(randomBetween(1, 9))}`,
-    fastestPath: "AI-computed optimal path",
-    evacuationImpact: Math.round(randomBetween(5, 25)),
-    summary:
-      "Autonomous emergency agent flagged anomaly from live sensor fusion.",
-    coordinates: {
-      x: Math.round(randomBetween(150, 650)),
-      y: Math.round(randomBetween(150, 500)),
-    },
+    etaMinutes: Math.round(randomBetween(4, 12)),
+    assignedTeam: template.assignedTeam,
+    fastestPath: useGate
+      ? `Screening → ${gate.name} (${Math.round(randomBetween(80, 200))}m)`
+      : `${stand.name} concourse → incident point`,
+    evacuationImpact: Math.round(randomBetween(4, 18)),
+    summary: template.summary,
+    coordinates: useGate
+      ? { x: gate.x, y: gate.y }
+      : { x: stand.x, y: stand.y },
   };
-  return [newIncident, ...incidents].slice(0, 6);
+
+  return [newIncident, ...incidents].slice(0, 5);
 }
 
 export function tickSimulation(
   snapshot: StadiumSnapshot,
   emergencies: EmergencyIncident[],
 ): { snapshot: StadiumSnapshot; emergencies: EmergencyIncident[] } {
-  const gates = mutateZones(snapshot.gates);
-  const stands = mutateZones(snapshot.stands);
-  const occupancy = Math.round(
-    clamp(snapshot.occupancy + randomBetween(-400, 600), 90000, CAPACITY),
-  );
-  const crowdStressScore = clamp(
-    snapshot.crowdStressScore + randomBetween(-3, 5),
-    20,
-    99,
-  );
-
-  let updatedSnapshot: StadiumSnapshot = {
-    ...snapshot,
-    timestamp: new Date().toISOString(),
-    gates,
-    stands,
-    heatmap: mutateHeatmap(snapshot),
-    occupancy,
-    occupancyPercent: (occupancy / CAPACITY) * 100,
-    crowdStressScore,
-    aiConfidence: clamp(snapshot.aiConfidence + randomBetween(-1.2, 0.8), 75, 99),
-    agents: createAgentFeed(),
-  };
+  const gates = snapshot.gates.map((m) => {
+    const zone = gateZoneById(m.id);
+    return zone ? mutateGateZone(m, zone) : m;
+  });
+  const stands = snapshot.stands.map((m) => mutateStandZone(m));
+  const occupancy = computeOccupancy(stands);
+  const heatmap = syncHeatmap(snapshot.heatmap, stands);
+  const routes = createRouteSuggestions(gates);
 
   const updatedEmergencies = emergencies.map((inc) => {
-    if (inc.status === "detected" && Math.random() > 0.7) {
+    if (inc.status === "detected" && Math.random() > 0.72) {
       return { ...inc, status: "dispatching" as const };
     }
-    if (inc.status === "dispatching" && Math.random() > 0.6) {
+    if (inc.status === "dispatching" && Math.random() > 0.58) {
       return {
         ...inc,
         status: "responding" as const,
@@ -143,6 +139,23 @@ export function tickSimulation(
   });
 
   const finalEmergencies = maybeAddEmergency(updatedEmergencies);
+  const crowdStressScore = computeCrowdStress(gates, stands, finalEmergencies);
+  const aiConfidence = computeAiConfidence(crowdStressScore, gates);
+
+  let updatedSnapshot: StadiumSnapshot = {
+    ...snapshot,
+    timestamp: new Date().toISOString(),
+    gates,
+    stands,
+    heatmap,
+    routes,
+    occupancy,
+    occupancyPercent: (occupancy / CAPACITY) * 100,
+    crowdStressScore,
+    aiConfidence,
+    agents: createAgentFeed(gates, stands),
+  };
+
   updatedSnapshot = {
     ...updatedSnapshot,
     kpis: syncKpis(updatedSnapshot, finalEmergencies),

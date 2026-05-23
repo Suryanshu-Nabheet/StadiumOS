@@ -1,48 +1,76 @@
+import { MAP, polar } from "@/lib/stadium-map-layout";
 import type { GateZone, StandZone, StadiumPoint } from "@/types/stadium";
 
-export const STADIUM_CENTER = { x: 400, y: 320 };
+const { center: C } = MAP;
+
+export const STADIUM_CENTER = C;
 
 export const gates: GateZone[] = [
-  { id: "G1", name: "Gate A — North", x: 400, y: 80, capacity: 12000 },
-  { id: "G2", name: "Gate B — NE", x: 620, y: 140, capacity: 10000 },
-  { id: "G3", name: "Gate C — East", x: 720, y: 320, capacity: 11000 },
-  { id: "G4", name: "Gate D — SE", x: 620, y: 500, capacity: 9500 },
-  { id: "G5", name: "Gate E — South", x: 400, y: 560, capacity: 13000 },
-  { id: "G6", name: "Gate F — SW", x: 180, y: 500, capacity: 9000 },
-  { id: "G7", name: "Gate G — West", x: 80, y: 320, capacity: 10500 },
-  { id: "G8", name: "Gate H — NW", x: 180, y: 140, capacity: 8800 },
+  { id: "G1", name: "Gate 1 — North Plaza", ...polar(C.x, C.y, 372, 0), capacity: 14_500 },
+  { id: "G2", name: "Gate 2 — NE Club", ...polar(C.x, C.y, 372, 45), capacity: 11_200 },
+  { id: "G3", name: "Gate 3 — East Upper", ...polar(C.x, C.y, 372, 90), capacity: 12_800 },
+  { id: "G4", name: "Gate 4 — SE Family", ...polar(C.x, C.y, 372, 135), capacity: 10_400 },
+  { id: "G5", name: "Gate 5 — South Bowl", ...polar(C.x, C.y, 372, 180), capacity: 16_200 },
+  { id: "G6", name: "Gate 6 — SW General", ...polar(C.x, C.y, 372, 225), capacity: 9_800 },
+  { id: "G7", name: "Gate 7 — West Lower", ...polar(C.x, C.y, 372, 270), capacity: 11_600 },
+  { id: "G8", name: "Gate 8 — NW Media", ...polar(C.x, C.y, 372, 315), capacity: 8_900 },
 ];
 
 export const stands: StandZone[] = [
-  { id: "S1", name: "North Stand", x: 400, y: 180, seats: 28000 },
-  { id: "S2", name: "East Pavilion", x: 580, y: 320, seats: 32000 },
-  { id: "S3", name: "South Stand", x: 400, y: 460, seats: 30000 },
-  { id: "S4", name: "West Stand", x: 220, y: 320, seats: 26000 },
+  { id: "S1", name: "Adani End (North)", ...polar(C.x, C.y, 298, 0), seats: 33_000 },
+  { id: "S2", name: "East Pavilion", ...polar(C.x, C.y, 298, 90), seats: 36_500 },
+  { id: "S3", name: "Reliance End (South)", ...polar(C.x, C.y, 298, 180), seats: 34_500 },
+  { id: "S4", name: "West Gallery", ...polar(C.x, C.y, 298, 270), seats: 28_000 },
+];
+
+/** Stand arc sectors (degrees from north) for SVG rendering. */
+export const standSectors: Record<
+  string,
+  { start: number; end: number }
+> = {
+  S1: { start: 315, end: 45 },
+  S2: { start: 45, end: 135 },
+  S3: { start: 135, end: 225 },
+  S4: { start: 225, end: 315 },
+};
+
+export const pavilions = [
+  { id: "PV1", name: "Media Pavilion", ...polar(C.x, C.y, 340, 350), angle: 350 },
+  { id: "PV2", name: "VIP Pavilion", ...polar(C.x, C.y, 340, 200), angle: 200 },
+];
+
+export const floodlights = [
+  { ...polar(C.x, C.y, 388, 45), angle: 45 },
+  { ...polar(C.x, C.y, 388, 135), angle: 135 },
+  { ...polar(C.x, C.y, 388, 225), angle: 225 },
+  { ...polar(C.x, C.y, 388, 315), angle: 315 },
 ];
 
 export const emergencyExits: StadiumPoint[] = [
-  { id: "E1", name: "Exit NE-1", x: 650, y: 200, type: "exit" },
-  { id: "E2", name: "Exit SE-1", x: 650, y: 440, type: "exit" },
-  { id: "E3", name: "Exit SW-1", x: 150, y: 440, type: "exit" },
-  { id: "E4", name: "Exit NW-1", x: 150, y: 200, type: "exit" },
+  { id: "E1", name: "Exit NE-1", ...polar(C.x, C.y, 330, 55), type: "exit" },
+  { id: "E2", name: "Exit SE-1", ...polar(C.x, C.y, 330, 125), type: "exit" },
+  { id: "E3", name: "Exit SW-1", ...polar(C.x, C.y, 330, 235), type: "exit" },
+  { id: "E4", name: "Exit NW-1", ...polar(C.x, C.y, 330, 305), type: "exit" },
+  { id: "E5", name: "Exit N-2 (Plaza)", ...polar(C.x, C.y, 318, 0), type: "exit" },
 ];
 
 export const medicalZones: StadiumPoint[] = [
-  { id: "M1", name: "Medical Bay 1", x: 520, y: 250, type: "medical" },
-  { id: "M2", name: "Medical Bay 2", x: 280, y: 250, type: "medical" },
-  { id: "M3", name: "Trauma Unit", x: 400, y: 400, type: "medical" },
+  { id: "M1", name: "First Aid — East L1", ...polar(C.x, C.y, 268, 75), type: "medical" },
+  { id: "M2", name: "First Aid — West L1", ...polar(C.x, C.y, 268, 285), type: "medical" },
+  { id: "M3", name: "Trauma Bay — South", ...polar(C.x, C.y, 255, 175), type: "medical" },
+  { id: "M4", name: "Ambulance Staging", ...polar(C.x, C.y, 348, 185), type: "medical" },
 ];
 
 export const securityCheckpoints: StadiumPoint[] = [
-  { id: "SC1", name: "Security CP-1", x: 500, y: 120, type: "security" },
-  { id: "SC2", name: "Security CP-2", x: 300, y: 120, type: "security" },
-  { id: "SC3", name: "Security CP-3", x: 500, y: 520, type: "security" },
-  { id: "SC4", name: "Security CP-4", x: 300, y: 520, type: "security" },
+  { id: "SC1", name: "Screening — North", ...polar(C.x, C.y, 355, 0), type: "security" },
+  { id: "SC2", name: "Screening — East", ...polar(C.x, C.y, 355, 90), type: "security" },
+  { id: "SC3", name: "Screening — South", ...polar(C.x, C.y, 355, 180), type: "security" },
+  { id: "SC4", name: "Screening — West", ...polar(C.x, C.y, 355, 270), type: "security" },
 ];
 
 export const parkingZones: StadiumPoint[] = [
-  { id: "P1", name: "Parking North", x: 400, y: 30, type: "parking" },
-  { id: "P2", name: "Parking East", x: 750, y: 320, type: "parking" },
-  { id: "P3", name: "Parking South", x: 400, y: 610, type: "parking" },
-  { id: "P4", name: "Parking West", x: 50, y: 320, type: "parking" },
+  { id: "P1", name: "P1 — Sardar Patel Ring (N)", ...polar(C.x, C.y, 395, 0), type: "parking" },
+  { id: "P2", name: "P2 — Motera Metro Shuttle", ...polar(C.x, C.y, 395, 90), type: "parking" },
+  { id: "P3", name: "P3 — South Service Rd", ...polar(C.x, C.y, 395, 180), type: "parking" },
+  { id: "P4", name: "P4 — VIP Plaza", ...polar(C.x, C.y, 395, 270), type: "parking" },
 ];

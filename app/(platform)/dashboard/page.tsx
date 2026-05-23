@@ -27,7 +27,7 @@ export default function DashboardPage() {
           <h3 className="mb-3 text-sm font-semibold text-slate-900">
             Stadium map
           </h3>
-          <StadiumMap showIncidents showRoutes className="w-full" />
+          <StadiumMap showIncidents showRoutes showHeatmap className="w-full" />
         </Panel>
         <div className="flex flex-col gap-6 xl:col-span-4">
           <EmergencyAlerts />

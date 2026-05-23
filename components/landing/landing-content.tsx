@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Panel } from "@/components/ui/panel";
 import { MotionLink } from "@/components/motion/motion-link";
 import { FadeIn } from "@/components/motion/fade-in";
+import { StadiumMapStatic } from "@/components/twin/stadium-map/stadium-map-static";
 import { siteConfig } from "@/config/site";
 import { ArrowRight, Map, Shield, Bot, Activity, type LucideIcon } from "lucide-react";
 
@@ -58,51 +58,57 @@ export function LandingContent() {
 
   return (
     <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-24 md:px-6 md:pt-28">
-      <motion.section
-        className="max-w-2xl"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        <p className="mb-2 text-sm font-medium text-sky-600">
-          {event.name} · by {author.name}
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl md:leading-tight lg:text-[2.75rem]">
-          Stadium operations, powered by real-time intelligence
-        </h1>
-        <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
-          Crowd density, emergency coordination, and AI-assisted decisions for
-          IPL-scale cricket venues.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <MotionLink href="/dashboard">
-            <Button size="lg">Open command center</Button>
-          </MotionLink>
-          <MotionLink href="/assistant">
-            <Button size="lg" variant="outline">
-              Operator assistant
-            </Button>
-          </MotionLink>
-        </div>
-      </motion.section>
+      <section className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+        <motion.div
+          className="max-w-xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <p className="mb-2 text-sm font-medium text-sky-600">
+            {event.name} · by {author.name}
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl md:leading-tight lg:text-[2.75rem]">
+            Stadium operations, powered by real-time intelligence
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+            Circular digital twin, live crowd physics, and AI-assisted decisions
+            for {siteConfig.match.venue}.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <MotionLink href="/dashboard">
+              <Button size="lg">Open command center</Button>
+            </MotionLink>
+            <MotionLink href="/assistant">
+              <Button size="lg" variant="outline">
+                Operator assistant
+              </Button>
+            </MotionLink>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+        >
+          <StadiumMapStatic className="mx-auto max-w-md lg:max-w-none" />
+          <p className="mt-3 text-center text-xs text-slate-500">
+            Motera schematic · 132,000 seats · live telemetry in app
+          </p>
+        </motion.div>
+      </section>
 
       <FadeIn className="mt-12" y={16}>
         <section id="platform" className="scroll-mt-28">
-          <Panel
-            padding="md"
-            className="glass-surface flex flex-col items-center justify-center py-12 md:py-14"
-          >
-            <Image
-              src="/favicon.svg"
-              alt="StadiumOS"
-              width={88}
-              height={88}
-              priority
-            />
-            <p className="mt-4 text-center text-sm text-slate-600">
-              Sky-blue operations platform · Narendra Modi Stadium demo
-            </p>
-            <MotionLink href="/dashboard" className="mt-6">
+          <Panel padding="md" className="glass-surface flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-slate-900">Match-day command center</p>
+              <p className="mt-1 text-sm text-slate-500">
+                Gates, stands, incidents, and AI routes — updating every few seconds.
+              </p>
+            </div>
+            <MotionLink href="/dashboard">
               <Button variant="outline">
                 Preview live dashboard
                 <ArrowRight className="h-4 w-4" />

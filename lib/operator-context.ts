@@ -76,9 +76,13 @@ export function buildOperatorContextBlock(ctx: OperatorContext): string {
     .map((c) => `  • cell(${c.x},${c.y}) intensity ${(c.intensity * 100).toFixed(0)}%`)
     .join("\n");
 
+  const { scoreboard, conditions } = match;
+
   return `
 MATCH: ${match.title} | ${match.teams}
 VENUE: ${match.venue} | Capacity ${match.capacity.toLocaleString()}
+SCORE: ${scoreboard.batting.team} ${scoreboard.batting.runs}/${scoreboard.batting.wickets} vs ${scoreboard.chasing.team} ${scoreboard.chasing.runs}/${scoreboard.chasing.wickets} (${match.inning})
+WEATHER: ${conditions.temperatureC}°C, ${conditions.humidityPct}% humidity, ${conditions.wind}, dew: ${conditions.dewRisk}
 SNAPSHOT TIME: ${s.timestamp}
 
 === COMMAND CENTER KPIs ===

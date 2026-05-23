@@ -16,7 +16,7 @@ export default function CrowdFlowPage() {
         description="Overcrowding prediction, rerouting, and panic-risk zones"
       />
       <Panel padding="md">
-        <StadiumMap showRoutes className="w-full max-h-[420px]" />
+        <StadiumMap showRoutes showHeatmap className="w-full max-h-[420px]" />
       </Panel>
       <div className="grid gap-6 lg:grid-cols-2">
         <CrowdHeatmap />

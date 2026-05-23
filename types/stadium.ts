@@ -47,6 +47,8 @@ export interface RouteSuggestion {
   id: string;
   from: string;
   to: string;
+  fromGateId?: string;
+  toGateId?: string;
   reason: string;
   impact: string;
   confidence: number;

@@ -12,6 +12,9 @@ export function RouteSuggestions() {
     <Panel>
       <PanelHeader title="Rerouting" description="AI-suggested crowd paths" />
       <div className="space-y-3">
+        {snapshot.routes.length === 0 && (
+          <p className="text-sm text-slate-500">No active reroutes — all gates within threshold.</p>
+        )}
         {snapshot.routes.map((route) => (
           <div
             key={route.id}
