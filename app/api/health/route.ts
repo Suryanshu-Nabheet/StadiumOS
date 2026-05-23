@@ -10,6 +10,7 @@ export async function GET() {
     environment: env.nodeEnv,
     features: {
       gemini: isGeminiConfigured(),
+      geminiModel: env.geminiModel,
       simulation: true,
     },
   });

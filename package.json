@@ -35,11 +35,17 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.16.0",
+    "marked": "^18.0.4",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.1.0",
     "tailwind-merge": "^3.6.0",
+    "use-stick-to-bottom": "^1.1.4",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

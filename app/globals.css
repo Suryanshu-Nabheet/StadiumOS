@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
   --background: #f4f9fc;
   --surface: #ffffff;
@@ -163,19 +165,6 @@ body {
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.link-nav {
-  color: var(--muted-foreground);
-  transition: color 0.15s, background-color 0.15s;
-}
-.link-nav:hover {
-  color: var(--foreground);
-  background: #f8fafc;
-}
-.link-nav-active {
-  color: #0369a1;
-  background: var(--brand-muted);
 }
 
 ::-webkit-scrollbar {

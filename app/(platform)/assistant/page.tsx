@@ -1,16 +1,7 @@
-import { ChatPanel } from "@/components/assistant/chat-panel";
-import { PageHeader } from "@/components/layout/page-header";
+import { OperatorChat } from "@/components/assistant/operator-chat";
 
 export const metadata = { title: "AI Assistant" };
 
 export default function AssistantPage() {
-  return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Operator assistant"
-        description="Natural-language queries over live stadium telemetry"
-      />
-      <ChatPanel />
-    </div>
-  );
+  return <OperatorChat className="h-full min-h-0 flex-1" />;
 }

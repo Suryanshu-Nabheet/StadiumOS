@@ -7,6 +7,7 @@ export type AppEnv = {
   nodeEnv: "development" | "production" | "test";
   appUrl: string;
   geminiApiKey: string | null;
+  geminiModel: string;
   simulationTickMs: number;
 };
 
@@ -24,6 +25,7 @@ export function getServerEnv(): AppEnv {
     nodeEnv,
     appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
     geminiApiKey: process.env.GEMINI_API_KEY?.trim() || null,
+    geminiModel: process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash",
     simulationTickMs: parseTickMs(),
   };
 }

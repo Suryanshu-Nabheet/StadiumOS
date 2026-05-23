@@ -52,30 +52,30 @@ function localFallbackResponse(
   }
 
   if (q.includes("congestion") || q.includes("predict")) {
-    return `**Predicted congestion (next 15 min)**\n\n• **South Stand / Gate E corridor** — stress index rising (+${(ctx.snapshot.crowdStressScore * 0.08).toFixed(0)}%)\n• **East Pavilion** — stable but elevated\n• **Safest ingress:** ${safestGate?.name}\n\nCrowdFlow-α agent recommends proactive dispersal before 2nd innings break surge.`;
+    return `**Predicted congestion (next 15 min)**\n\n• **South Stand / Gate E corridor** — stress index rising\n• **Safest ingress:** ${safestGate?.name}\n\nCrowdFlow agent recommends proactive dispersal before break surge.`;
   }
 
   if (q.includes("evacuation") || q.includes("safest path")) {
-    return `**Safest evacuation routing**\n\n• Primary egress: **Exit NE-1 + Exit NW-1** (lowest density vectors)\n• Avoid: Gate E choke point — stampede risk score **${ctx.emergencies.find((e) => e.type === "stampede_risk") ? "elevated" : "moderate"}**\n• Medical staging: Medical Bay 2 → South corridors\n• Est. full sector clear: **18–24 min** at current occupancy`;
+    return `**Safest evacuation routing**\n\n• Primary egress: **Exit NE-1 + Exit NW-1**\n• Avoid: Gate E choke point\n• Est. full sector clear: **18–24 min** at current occupancy`;
   }
 
   if (q.includes("security") || q.includes("move")) {
-    return `**Security repositioning**\n\n• Deploy 2 units to **Gate E** bottleneck (critical)\n• Maintain K9 sweep at **East Pavilion Zone C** (suspicious activity)\n• Pre-stage Rapid-7 at **South Stand L2** for medical overlap\n\nAll paths computed for <3 min response time.`;
+    return `**Security repositioning**\n\n• Deploy 2 units to **Gate E** bottleneck\n• Pre-stage Rapid-7 at **South Stand L2**\n\nPaths computed for <3 min response time.`;
   }
 
   if (q.includes("report") || q.includes("incident")) {
     const inc = ctx.emergencies[0];
-    return `**AI Incident Report — ${new Date().toLocaleTimeString()}**\n\n**Executive summary:** Stadium operating at ${ctx.snapshot.occupancyPercent.toFixed(0)}% capacity with ${ctx.emergencies.length} active incidents. Primary risk vector: Gate E ingress pressure.\n\n**Priority incident:** ${inc?.title ?? "None"}\n${inc?.summary ?? ""}\n\n**Recommended actions:**\n1. Execute Gate E → G reroute\n2. Scale medical at South Stand\n3. Monitor crowd stress (current: ${ctx.snapshot.crowdStressScore}/100)`;
+    return `**Incident report — ${new Date().toLocaleTimeString()}**\n\n**Summary:** ${ctx.snapshot.occupancyPercent.toFixed(0)}% capacity, ${ctx.emergencies.length} active incidents.\n\n**Priority:** ${inc?.title ?? "None"}\n${inc?.summary ?? ""}`;
   }
 
-  return `**StadiumOS AI — Operator Brief**\n\n• Occupancy: **${ctx.snapshot.occupancyPercent.toFixed(1)}%** | Stress: **${ctx.snapshot.crowdStressScore}**/100\n• Highest pressure gate: **${sortedGates[0]?.name}**\n• Active incidents: **${ctx.emergencies.length}**\n• AI confidence: **${ctx.snapshot.aiConfidence.toFixed(1)}%**\n\nAsk about gate overload, congestion prediction, evacuation paths, security moves, or incident reports.`;
+  return `**Operator brief**\n\n• Occupancy: **${ctx.snapshot.occupancyPercent.toFixed(1)}%** | Stress: **${ctx.snapshot.crowdStressScore}**/100\n• Highest pressure: **${sortedGates[0]?.name}**\n• Active incidents: **${ctx.emergencies.length}**`;
 }
 
 export async function generateOperatorResponse(
   message: string,
   ctx: AssistantContext,
 ): Promise<{ text: string; source: "gemini" | "local" }> {
-  const { geminiApiKey: apiKey } = getServerEnv();
+  const { geminiApiKey: apiKey, geminiModel } = getServerEnv();
 
   if (!apiKey) {
     return {
@@ -86,7 +86,7 @@ export async function generateOperatorResponse(
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: geminiModel });
     const result = await model.generateContent({
       contents: [
         {
@@ -100,8 +100,14 @@ export async function generateOperatorResponse(
       ],
     });
     const text = result.response.text();
-    return { text: text || localFallbackResponse(message, ctx), source: "gemini" };
-  } catch {
+    return {
+      text: text?.trim() || localFallbackResponse(message, ctx),
+      source: "gemini",
+    };
+  } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.error("[assistant] Gemini error:", error);
+    }
     return {
       text: localFallbackResponse(message, ctx),
       source: "local",
