@@ -50,7 +50,7 @@ export function AnalyticsCharts() {
   }, [snapshot.stands]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid gap-5 lg:grid-cols-2">
       <Panel>
         <PanelHeader title="Density trend" description="Match-day hourly (live-adjusted)" />
         <ChartContainer>

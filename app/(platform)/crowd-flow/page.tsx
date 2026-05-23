@@ -4,26 +4,40 @@ import { GatePressure } from "@/components/dashboard/gate-pressure";
 import { CongestionChart } from "@/components/dashboard/congestion-chart";
 import { StadiumMap } from "@/components/twin/stadium-map";
 import { PageHeader } from "@/components/layout/page-header";
-import { Panel } from "@/components/ui/panel";
+import { PageShell } from "@/components/layout/page-shell";
+import { Panel, PanelHeader } from "@/components/ui/panel";
 
 export const metadata = { title: "Crowd Flow" };
 
 export default function CrowdFlowPage() {
   return (
-    <div className="space-y-6">
+    <PageShell>
       <PageHeader
+        className="mb-0 border-b border-border/60 pb-4"
         title="Crowd flow"
         description="Overcrowding prediction, rerouting, and panic-risk zones"
       />
-      <Panel padding="md">
-        <StadiumMap showRoutes showHeatmap className="w-full max-h-[420px]" />
+
+      <Panel padding="md" className="flex flex-col">
+        <PanelHeader
+          title="Live bowl map"
+          description="Heatmap overlay · AI reroute paths"
+        />
+        <div className="flex justify-center py-1">
+          <StadiumMap
+            showRoutes
+            showHeatmap
+            className="w-full max-w-[min(100%,32rem)]"
+          />
+        </div>
       </Panel>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <CrowdHeatmap />
-        <CongestionChart />
-        <RouteSuggestions />
-        <GatePressure />
-      </div>
-    </div>
+
+      <section className="grid gap-5 md:grid-cols-2">
+        <CrowdHeatmap className="min-h-[360px]" />
+        <CongestionChart className="min-h-[360px]" />
+        <RouteSuggestions className="min-h-[260px]" />
+        <GatePressure className="min-h-[360px]" />
+      </section>
+    </PageShell>
   );
 }

@@ -10,8 +10,10 @@ import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 
 const links = [
-  { href: "#features", label: "Features" },
   { href: "#platform", label: "Platform" },
+  { href: "#features", label: "Features" },
+  { href: "#hackathon", label: "GDG" },
+  { href: "#license", label: "License" },
 ];
 
 export function LandingNavbar() {
@@ -33,8 +35,8 @@ export function LandingNavbar() {
         transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
         className={cn(
           "pointer-events-auto mx-auto w-full max-w-6xl rounded-xl px-3 py-1.5 md:px-4 md:py-2",
-          "glass-surface-strong transition-[box-shadow,background-color] duration-300 ease-out",
-          scrolled && "shadow-md shadow-sky-500/10",
+          "border border-white/70 bg-white/75 shadow-sm backdrop-blur-xl transition-[box-shadow,background-color] duration-300 ease-out",
+          scrolled && "border-sky-100/80 bg-white/90 shadow-md shadow-sky-500/8",
         )}
         aria-label="Primary"
       >
@@ -43,23 +45,31 @@ export function LandingNavbar() {
             <NavbarBrand />
           </div>
 
-          <div className="hidden items-center justify-center gap-0.5 justify-self-center md:flex">
+          <div className="hidden items-center justify-center gap-0.5 justify-self-center lg:flex">
             {links.map((link) => (
               <SmoothScrollLink
                 key={link.href}
                 href={link.href}
-                className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-white/70 hover:text-slate-900"
+                className="rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-sky-50/80 hover:text-slate-900"
               >
                 {link.label}
               </SmoothScrollLink>
             ))}
           </div>
 
-          <div className="flex shrink-0 items-center justify-end justify-self-end">
-            <MotionLink href="/dashboard">
-              <Button size="default" className="h-8 gap-1.5 px-3.5 text-sm shadow-sm">
+          <div className="flex shrink-0 items-center justify-end justify-self-end gap-2">
+            <MotionLink href="/dashboard" className="hidden sm:block">
+              <Button
+                size="default"
+                className="h-8 gap-1.5 px-3.5 text-sm shadow-sm"
+              >
                 Command center
                 <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </MotionLink>
+            <MotionLink href="/dashboard" className="sm:hidden">
+              <Button size="default" className="h-8 px-3 text-sm shadow-sm">
+                Launch
               </Button>
             </MotionLink>
           </div>

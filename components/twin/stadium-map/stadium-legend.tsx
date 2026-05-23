@@ -15,9 +15,29 @@ const infraLegend = [
   { swatch: "#DB2777", label: "Medical" },
 ] as const;
 
-export function StadiumLegend() {
+export function StadiumLegend({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 px-1">
+        {densityLegend.map((item) => (
+          <span
+            key={item.label}
+            className="flex items-center gap-1 text-[9px] font-medium text-slate-500"
+          >
+            <span
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: item.color }}
+            />
+            {item.label}
+          </span>
+        ))}
+        <span className="text-[9px] text-slate-400">· Motera live twin</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="mt-3 flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2.5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+    <div className="mt-2 flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50/80 px-3 py-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
       <div className="flex flex-wrap gap-x-4 gap-y-1.5">
         {densityLegend.map((item) => (
           <span

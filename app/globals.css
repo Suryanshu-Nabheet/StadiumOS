@@ -148,6 +148,13 @@ body {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
+/* Landing — GDG watermark merged into white canvas */
+.landing-gdg-watermark {
+  opacity: 0.042;
+  filter: saturate(0.85) contrast(1.05);
+  mix-blend-mode: multiply;
+}
+
 /* Sidebar collapse — smooth width + label fade */
 @media (prefers-reduced-motion: no-preference) {
   [data-slot="sidebar-inner"] {

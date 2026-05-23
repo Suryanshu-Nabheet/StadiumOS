@@ -23,7 +23,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
         <main
           className={cn(
             "flex min-h-0 flex-1 flex-col overflow-hidden",
-            !isAssistant && "overflow-y-auto p-4 md:p-6",
+            !isAssistant && "overflow-y-auto p-4 md:p-5 lg:p-6",
           )}
         >
           {children}

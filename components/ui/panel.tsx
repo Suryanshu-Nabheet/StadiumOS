@@ -14,7 +14,7 @@ export function Panel({
   ...props
 }: PanelProps) {
   const pad =
-    padding === "none" ? "" : padding === "sm" ? "p-4" : "p-5";
+    padding === "none" ? "" : padding === "sm" ? "p-3.5 sm:p-4" : "p-4 sm:p-5";
 
   return (
     <div
