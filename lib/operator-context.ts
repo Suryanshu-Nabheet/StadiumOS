@@ -7,6 +7,23 @@ export interface OperatorContext {
   emergencies: EmergencyIncident[];
 }
 
+/** Short snapshot for greetings / light replies — avoids dumping full DB. */
+export function buildOperatorContextBrief(ctx: OperatorContext): string {
+  const { snapshot: s, emergencies } = ctx;
+  const active = emergencies.filter((e) => e.status !== "resolved").length;
+  const topGate = [...s.gates].sort((a, b) => b.density - a.density)[0];
+  const { match } = siteConfig;
+
+  return [
+    `Match: ${match.title}`,
+    `Occupancy: ${s.occupancyPercent.toFixed(0)}% | Crowd stress: ${s.crowdStressScore}/100`,
+    `Active incidents: ${active}`,
+    topGate ? `Busiest gate: ${topGate.name} (${topGate.density.toFixed(0)}%)` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 /** Full live-state block for Gemini + local fallback — mirrors all dashboard panels. */
 export function buildOperatorContextBlock(ctx: OperatorContext): string {
   const { snapshot: s, emergencies } = ctx;

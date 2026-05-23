@@ -18,7 +18,7 @@ const WELCOME: ChatMessage = {
   id: "welcome",
   role: "assistant",
   content:
-    "I'm connected to the **live operations database** — the same telemetry as Command Center, Crowd Flow, Emergency, Twin, and Analytics.\n\nAsk about gate overload, congestion, evacuation, security moves, incident reports, or the agent feed.",
+    "StadiumOS operator AI — synced to live telemetry. Ask about gates, crowd, incidents, or say **hi** to start.",
   source: "local",
 };
 
@@ -207,7 +207,7 @@ export function OperatorChat({ className }: { className?: string }) {
           {isLoading && (
             <div className="flex items-center gap-2 text-sm text-slate-500">
               <Loader2 className="h-4 w-4 animate-spin text-sky-500" />
-              Analyzing live stadium data…
+              Thinking…
             </div>
           )}
         </div>
