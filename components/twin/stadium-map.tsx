@@ -7,15 +7,11 @@ import {
   medicalZones,
   securityCheckpoints,
 } from "@/config/stadium";
+import { brand } from "@/config/theme";
 import { useStadium } from "@/hooks/use-stadium";
+import { chartSuccess } from "@/lib/chart-styles";
+import { zoneColors } from "@/lib/status";
 import type { ZoneStatus } from "@/types/stadium";
-
-const statusColors: Record<ZoneStatus, string> = {
-  normal: "#0ea5e9",
-  elevated: "#38bdf8",
-  congested: "#f59e0b",
-  critical: "#ef4444",
-};
 
 interface StadiumMapProps {
   showIncidents?: boolean;
@@ -39,12 +35,12 @@ export function StadiumMap({
     >
       <defs>
         <radialGradient id="pitchGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#f8fafc" stopOpacity="0" />
+          <stop offset="0%" stopColor={brand.sky} stopOpacity="0.12" />
+          <stop offset="100%" stopColor={brand.background} stopOpacity="0" />
         </radialGradient>
       </defs>
 
-      <rect width="800" height="640" fill="#f8fafc" rx="12" />
+      <rect width="800" height="640" fill={brand.background} rx="12" />
       <rect
         x="40"
         y="40"
@@ -52,7 +48,7 @@ export function StadiumMap({
         height="560"
         rx="120"
         fill="url(#pitchGlow)"
-        stroke="#e2e8f0"
+        stroke={brand.border}
         strokeWidth="2"
       />
       <ellipse
@@ -70,14 +66,14 @@ export function StadiumMap({
         width="80"
         height="80"
         rx="4"
-        fill="#e0f2fe"
-        stroke="#7dd3fc"
+        fill={brand.skyMuted}
+        stroke={brand.skyLight}
         strokeWidth="1"
       />
 
       {stands.map((stand) => {
         const metrics = snapshot.stands.find((s) => s.id === stand.id);
-        const color = statusColors[metrics?.status ?? "normal"];
+        const color = zoneColors[(metrics?.status ?? "normal") as ZoneStatus];
         return (
           <g key={stand.id}>
             <circle
@@ -93,7 +89,7 @@ export function StadiumMap({
               x={stand.x}
               y={stand.y + 70}
               textAnchor="middle"
-              fill="#64748b"
+              fill={brand.textMuted}
               fontSize="10"
             >
               {stand.name}
@@ -104,7 +100,7 @@ export function StadiumMap({
 
       {gates.map((gate) => {
         const metrics = snapshot.gates.find((g) => g.id === gate.id);
-        const color = statusColors[metrics?.status ?? "normal"];
+        const color = zoneColors[(metrics?.status ?? "normal") as ZoneStatus];
         return (
           <g key={gate.id}>
             <rect
@@ -135,8 +131,7 @@ export function StadiumMap({
         <polygon
           key={e.id}
           points={`${e.x},${e.y - 10} ${e.x + 10},${e.y + 8} ${e.x - 10},${e.y + 8}`}
-          fill="#10b981"
-          fillOpacity={0.8}
+          fill={chartSuccess}
         />
       ))}
 
@@ -150,7 +145,7 @@ export function StadiumMap({
             rx={4}
             fill="#fce7f3"
             stroke="#ec4899"
-            strokeWidth={1}
+            strokeWidth="1"
           />
           <text x={m.x} y={m.y + 4} textAnchor="middle" fill="#be185d" fontSize="10">
             +
@@ -164,24 +159,23 @@ export function StadiumMap({
           cx={s.x}
           cy={s.y}
           r={8}
-          fill="#2563eb"
+          fill={brand.blue}
           fillOpacity={0.7}
         />
       ))}
 
       {showIncidents &&
         emergencies.map((inc) => (
-          <g key={inc.id}>
-            <circle
-              cx={inc.coordinates.x}
-              cy={inc.coordinates.y}
-              r={12}
-              fill="#ef4444"
-              fillOpacity={0.35}
-              stroke="#ef4444"
-              strokeWidth={2}
-            />
-          </g>
+          <circle
+            key={inc.id}
+            cx={inc.coordinates.x}
+            cy={inc.coordinates.y}
+            r={12}
+            fill="#ef4444"
+            fillOpacity={0.35}
+            stroke="#ef4444"
+            strokeWidth={2}
+          />
         ))}
 
       {showRoutes &&
@@ -192,7 +186,7 @@ export function StadiumMap({
             y1={320}
             x2={500 + i * 50}
             y2={280}
-            stroke="#0ea5e9"
+            stroke={brand.sky}
             strokeWidth={2}
             strokeDasharray="6 4"
             opacity={0.8}

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 interface LogoProps {
   showText?: boolean;
   size?: "sm" | "md" | "lg";
-  href?: string;
+  href?: string | null;
   className?: string;
 }
 
@@ -30,7 +30,7 @@ export function Logo({
         width={s.icon}
         height={s.icon}
         className="shrink-0"
-        priority
+        priority={size !== "sm"}
       />
       {showText && (
         <div className="leading-tight">
@@ -47,7 +47,10 @@ export function Logo({
 
   if (href) {
     return (
-      <Link href={href} className="inline-flex outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40 rounded-lg">
+      <Link
+        href={href}
+        className="inline-flex rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40"
+      >
         {content}
       </Link>
     );
@@ -63,7 +66,7 @@ export function GdgLogo({ className }: { className?: string }) {
       alt="Google Developer Groups"
       width={72}
       height={72}
-      className={cn("h-8 w-auto", className)}
+      className={cn("h-8 w-auto opacity-90", className)}
     />
   );
 }

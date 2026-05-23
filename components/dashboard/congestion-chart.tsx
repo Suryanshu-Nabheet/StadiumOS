@@ -1,7 +1,15 @@
 "use client";
 
 import { Panel, PanelHeader } from "@/components/ui/panel";
+import { ChartContainer } from "@/components/ui/chart-container";
 import { useStadium } from "@/hooks/use-stadium";
+import {
+  chartGridStroke,
+  chartPrimary,
+  chartPrimaryFill,
+  chartTickFill,
+  chartTooltipStyle,
+} from "@/lib/chart-styles";
 import {
   Area,
   AreaChart,
@@ -25,30 +33,23 @@ export function CongestionChart() {
         title="Congestion index"
         description="Gate and stand pressure"
       />
-      <div className="h-52 min-h-[208px] w-full min-w-0">
-        <ResponsiveContainer width="100%" height="100%" minHeight={208}>
+      <ChartContainer height={208}>
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-            <XAxis dataKey="name" tick={{ fill: "#64748b", fontSize: 10 }} />
-            <YAxis tick={{ fill: "#64748b", fontSize: 10 }} />
-            <Tooltip
-              contentStyle={{
-                background: "#fff",
-                border: "1px solid #e2e8f0",
-                borderRadius: 8,
-                fontSize: 12,
-              }}
-            />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} />
+            <XAxis dataKey="name" tick={{ fill: chartTickFill, fontSize: 10 }} />
+            <YAxis tick={{ fill: chartTickFill, fontSize: 10 }} />
+            <Tooltip contentStyle={chartTooltipStyle} />
             <Area
               type="monotone"
               dataKey="density"
-              stroke="#0ea5e9"
-              fill="#e0f2fe"
+              stroke={chartPrimary}
+              fill={chartPrimaryFill}
               strokeWidth={2}
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </ChartContainer>
     </Panel>
   );
 }

@@ -15,10 +15,10 @@ export const siteConfig = {
 } as const;
 
 export const navItems = [
-  { href: "/dashboard", label: "Command Center", icon: "LayoutDashboard" },
-  { href: "/crowd-flow", label: "Crowd Flow AI", icon: "GitBranch" },
-  { href: "/emergency", label: "Emergency Agents", icon: "Siren" },
-  { href: "/twin", label: "Digital Twin", icon: "Map" },
+  { href: "/dashboard", label: "Command center", icon: "LayoutDashboard" },
+  { href: "/crowd-flow", label: "Crowd flow", icon: "GitBranch" },
+  { href: "/emergency", label: "Emergency", icon: "Siren" },
+  { href: "/twin", label: "Digital twin", icon: "Map" },
   { href: "/analytics", label: "Analytics", icon: "BarChart3" },
-  { href: "/assistant", label: "AI Assistant", icon: "Bot" },
+  { href: "/assistant", label: "Assistant", icon: "Bot" },
 ] as const;

@@ -52,7 +52,9 @@ export async function GET() {
 ## Styling
 
 - Global tokens: `app/globals.css` (`:root` and `@theme`)
-- Use `GlassCard`, `Badge`, `Button` from `components/ui/`
+- Use `Panel`, `Badge`, `Button` from `components/ui/`
+- Shared status mapping: `lib/status.ts`
+- Chart styling: `lib/chart-styles.ts` + `ChartContainer`
 - Brand colors: cyan `#22d3ee`, blue `#2563eb`, purple accents
 
 ## Pre-commit checklist

@@ -6,7 +6,7 @@ import { StadiumMap } from "@/components/twin/stadium-map";
 import { PageHeader } from "@/components/layout/page-header";
 import { Panel } from "@/components/ui/panel";
 
-export const metadata = { title: "Crowd Flow AI" };
+export const metadata = { title: "Crowd Flow" };
 
 export default function CrowdFlowPage() {
   return (

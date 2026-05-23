@@ -74,7 +74,7 @@ StadiumOS AI is a **Next.js full-stack application** with a clear separation bet
 | Concern | Choice |
 | ------- | ------ |
 | Framework | Next.js 16 App Router + Turbopack |
-| Styling | Tailwind CSS 4, glassmorphism tokens |
+| Styling | Tailwind CSS 4, sky-blue / white design tokens (`config/theme.ts`) |
 | State | Zustand (live), TanStack Query (optional fetch) |
 | Charts | Recharts |
 | AI | Google Generative AI (Gemini 2.0 Flash) |

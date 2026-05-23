@@ -1,7 +1,15 @@
 "use client";
 
 import { Panel, PanelHeader } from "@/components/ui/panel";
+import { ChartContainer } from "@/components/ui/chart-container";
 import { useStadium } from "@/hooks/use-stadium";
+import {
+  chartGridStroke,
+  chartPrimary,
+  chartSuccess,
+  chartTickFill,
+  chartTooltipStyle,
+} from "@/lib/chart-styles";
 import {
   Bar,
   BarChart,
@@ -15,11 +23,11 @@ import {
 } from "recharts";
 
 const hourlyData = [
-  { hour: "18:00", density: 42, incidents: 0 },
-  { hour: "19:00", density: 68, incidents: 1 },
-  { hour: "20:00", density: 85, incidents: 2 },
-  { hour: "21:00", density: 78, incidents: 3 },
-  { hour: "22:00", density: 55, incidents: 1 },
+  { hour: "18:00", density: 42 },
+  { hour: "19:00", density: 68 },
+  { hour: "20:00", density: 85 },
+  { hour: "21:00", density: 78 },
+  { hour: "22:00", density: 55 },
 ];
 
 const evacData = [
@@ -40,72 +48,65 @@ export function AnalyticsCharts() {
     <div className="grid gap-6 lg:grid-cols-2">
       <Panel>
         <PanelHeader title="Density trend" description="Match-day hourly" />
-        <div className="h-64 min-h-[256px] w-full min-w-0">
-          <ResponsiveContainer width="100%" height="100%" minHeight={256}>
+        <ChartContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart data={hourlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis dataKey="hour" tick={{ fill: "#64748b", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 8,
-                }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} />
+              <XAxis dataKey="hour" tick={{ fill: chartTickFill, fontSize: 11 }} />
+              <YAxis tick={{ fill: chartTickFill, fontSize: 11 }} />
+              <Tooltip contentStyle={chartTooltipStyle} />
               <Line
                 type="monotone"
                 dataKey="density"
-                stroke="#0ea5e9"
+                stroke={chartPrimary}
                 strokeWidth={2}
                 dot={false}
-                name="Density %"
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </ChartContainer>
       </Panel>
 
       <Panel>
         <PanelHeader title="Gate throughput" description="Fans per minute" />
-        <div className="h-64 min-h-[256px] w-full min-w-0">
-          <ResponsiveContainer width="100%" height="100%" minHeight={256}>
+        <ChartContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={throughput}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis dataKey="gate" tick={{ fill: "#64748b", fontSize: 10 }} />
-              <YAxis tick={{ fill: "#64748b", fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 8,
-                }}
-              />
-              <Bar dataKey="throughput" fill="#0ea5e9" radius={[4, 4, 0, 0]} />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} />
+              <XAxis dataKey="gate" tick={{ fill: chartTickFill, fontSize: 10 }} />
+              <YAxis tick={{ fill: chartTickFill, fontSize: 11 }} />
+              <Tooltip contentStyle={chartTooltipStyle} />
+              <Bar dataKey="throughput" fill={chartPrimary} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartContainer>
       </Panel>
 
       <Panel>
-        <PanelHeader title="Evacuation readiness" description="Success probability by sector" />
-        <div className="h-64 min-h-[256px] w-full min-w-0">
-          <ResponsiveContainer width="100%" height="100%" minHeight={256}>
+        <PanelHeader
+          title="Evacuation readiness"
+          description="Success probability by sector"
+        />
+        <ChartContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart data={evacData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-              <XAxis type="number" domain={[0, 100]} tick={{ fill: "#64748b", fontSize: 11 }} />
-              <YAxis dataKey="sector" type="category" tick={{ fill: "#64748b", fontSize: 11 }} width={56} />
-              <Tooltip
-                contentStyle={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: 8,
-                }}
+              <CartesianGrid strokeDasharray="3 3" stroke={chartGridStroke} />
+              <XAxis
+                type="number"
+                domain={[0, 100]}
+                tick={{ fill: chartTickFill, fontSize: 11 }}
               />
-              <Bar dataKey="probability" fill="#10b981" radius={[0, 4, 4, 0]} />
+              <YAxis
+                dataKey="sector"
+                type="category"
+                tick={{ fill: chartTickFill, fontSize: 11 }}
+                width={56}
+              />
+              <Tooltip contentStyle={chartTooltipStyle} />
+              <Bar dataKey="probability" fill={chartSuccess} radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
-        </div>
+        </ChartContainer>
       </Panel>
 
       <Panel>

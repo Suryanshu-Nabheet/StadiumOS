@@ -7,7 +7,7 @@ export function CrowdHeatmap() {
   const { snapshot } = useStadium();
 
   return (
-    <Panel className="h-full">
+    <Panel>
       <PanelHeader
         title="Crowd density"
         description="Live heatmap · updates every few seconds"

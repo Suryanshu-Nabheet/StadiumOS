@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { simulation } from "@/config/theme";
 import type { EmergencyIncident } from "@/types/emergency";
 import type { StadiumSnapshot } from "@/types/stadium";
 import { bootstrapSimulation, tickSimulation } from "@/services/simulation-engine";
@@ -45,7 +46,7 @@ export function ensureSimulationLoop() {
     if (state.simulationRunning) {
       state.tick();
     }
-  }, 3500);
+  }, simulation.tickMs);
 
   useStadiumStore.getState().startSimulation();
 }
