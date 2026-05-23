@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Panel } from "@/components/ui/panel";
 import { MotionLink } from "@/components/motion/motion-link";
 import { FadeIn } from "@/components/motion/fade-in";
+import { siteConfig } from "@/config/site";
 import { ArrowRight, Map, Shield, Bot, Activity, type LucideIcon } from "lucide-react";
 
 const features: {
@@ -54,16 +54,18 @@ const item = {
 };
 
 export function LandingContent() {
+  const { author, event } = siteConfig;
+
   return (
-    <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-24 md:px-6 md:pt-28">
+    <main className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-28 md:px-6 md:pt-32">
       <motion.section
         className="max-w-2xl"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-sky-600">
-          GDG Hackathon
+        <p className="mb-2 text-sm font-medium text-sky-600">
+          {event.name} · by {author.name}
         </p>
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl md:leading-tight lg:text-[2.75rem]">
           Stadium operations, powered by real-time intelligence
@@ -85,7 +87,7 @@ export function LandingContent() {
       </motion.section>
 
       <FadeIn className="mt-12" y={16}>
-        <section id="platform" className="scroll-mt-24">
+        <section id="platform" className="scroll-mt-28">
           <Panel
             padding="md"
             className="glass-surface flex flex-col items-center justify-center py-12 md:py-14"
@@ -110,7 +112,7 @@ export function LandingContent() {
         </section>
       </FadeIn>
 
-      <section id="features" className="mt-12 scroll-mt-24">
+      <section id="features" className="mt-12 scroll-mt-28">
         <FadeIn>
           <h2 className="text-base font-semibold text-slate-900">Capabilities</h2>
           <p className="mt-1 text-sm text-slate-500">

@@ -2,35 +2,56 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type CollabSize = "xs" | "sm" | "md";
+/** xs = sidebar · nav = landing navbar · sm = footer · md = marketing */
+type CollabSize = "xs" | "nav" | "sm" | "md";
 
 const config: Record<
   CollabSize,
-  { icon: number; title: string; ai: string; gdg: string; gap: string; times: string }
+  {
+    icon: number;
+    title: string;
+    ai: string;
+    gdg: string;
+    gap: string;
+    times: string;
+    weight: string;
+  }
 > = {
   xs: {
-    icon: 22,
-    title: "text-[13px]",
-    ai: "text-[13px]",
-    gdg: "h-5",
-    gap: "gap-1.5",
-    times: "text-xs",
-  },
-  sm: {
-    icon: 26,
+    icon: 24,
     title: "text-sm",
     ai: "text-sm",
     gdg: "h-6",
     gap: "gap-2",
     times: "text-sm",
+    weight: "font-semibold",
   },
-  md: {
-    icon: 30,
+  nav: {
+    icon: 34,
+    title: "text-base",
+    ai: "text-base",
+    gdg: "h-8",
+    gap: "gap-2.5",
+    times: "text-lg",
+    weight: "font-semibold",
+  },
+  sm: {
+    icon: 28,
     title: "text-sm",
     ai: "text-sm",
     gdg: "h-7",
     gap: "gap-2",
-    times: "text-sm",
+    times: "text-base",
+    weight: "font-semibold",
+  },
+  md: {
+    icon: 36,
+    title: "text-lg",
+    ai: "text-lg",
+    gdg: "h-9",
+    gap: "gap-3",
+    times: "text-lg",
+    weight: "font-semibold",
   },
 };
 
@@ -60,16 +81,22 @@ export function BrandCollab({
         width={s.icon}
         height={s.icon}
         className="shrink-0"
-        priority={size !== "xs"}
+        priority={size === "nav" || size === "md"}
       />
-      <span className={cn("font-semibold leading-none text-slate-900", s.title)}>
+      <span
+        className={cn(
+          "whitespace-nowrap leading-none tracking-tight text-slate-900",
+          s.title,
+          s.weight,
+        )}
+      >
         StadiumOS
-        <span className={cn("font-semibold text-sky-600", s.ai)}> AI</span>
+        <span className={cn("text-sky-600", s.ai, s.weight)}> AI</span>
       </span>
       {showDivider && (
         <span
           className={cn(
-            "select-none font-light leading-none text-slate-300",
+            "select-none px-0.5 font-normal leading-none text-slate-400",
             s.times,
           )}
           aria-hidden
@@ -80,9 +107,9 @@ export function BrandCollab({
       <Image
         src="/gdg.svg"
         alt="Google Developer Groups"
-        width={48}
-        height={48}
-        className={cn("w-auto shrink-0 opacity-95", s.gdg)}
+        width={56}
+        height={56}
+        className={cn("w-auto shrink-0", s.gdg)}
       />
     </div>
   );

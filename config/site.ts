@@ -4,6 +4,14 @@ export const siteConfig = {
   description:
     "AI-powered stadium crowd intelligence and emergency response platform for large-scale cricket events.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+  author: {
+    name: "Suryanshu Nabheet",
+    github: "https://github.com/Suryanshu-Nabheet/",
+  },
+  event: {
+    name: "GDG Hackathon",
+    partner: "Google Developer Groups",
+  },
   match: {
     title: "IPL Final — Night Match",
     teams: "Mumbai Indians vs Chennai Super Kings",

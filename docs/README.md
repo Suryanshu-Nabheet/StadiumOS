@@ -2,6 +2,8 @@
 
 Enterprise AI stadium operations platform for GDG Hackathon and production demos.
 
+**Developer:** Suryanshu Nabheet · **Event:** GDG Hackathon
+
 ## Quick links
 
 | Document | Description |
@@ -36,6 +38,11 @@ Open **http://localhost:3000** → **Launch Command Center**.
 | `/twin` | Digital Twin Stadium |
 | `/analytics` | Analytics Engine |
 | `/assistant` | AI Command Assistant |
+
+## Credits
+
+- **Suryanshu Nabheet** — project developer (GDG Hackathon)
+- Co-brand: StadiumOS AI × Google Developer Groups
 
 ## Support
 

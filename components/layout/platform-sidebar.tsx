@@ -12,7 +12,7 @@ import {
   Siren,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { navItems } from "@/config/site";
+import { navItems, siteConfig } from "@/config/site";
 import { BrandCollab } from "@/components/brand/brand-collab";
 import { useStadiumStore } from "@/store/stadium-store";
 
@@ -28,14 +28,16 @@ const iconMap = {
 export function PlatformSidebar() {
   const pathname = usePathname();
   const simulationRunning = useStadiumStore((s) => s.simulationRunning);
+  const { author, event } = siteConfig;
 
   return (
     <aside className="flex h-full w-60 flex-col border-r border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-3 py-3.5">
+      <div className="border-b border-slate-100 px-3 py-4">
         <BrandCollab size="xs" href="/" />
-        <p className="mt-2.5 pl-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-400">
-          Operations
+        <p className="mt-3 text-[11px] font-medium text-slate-500">
+          {event.name}
         </p>
+        <p className="text-[10px] text-slate-400">by {author.name}</p>
       </div>
       <nav className="flex-1 space-y-0.5 p-3" aria-label="Main">
         {navItems.map((item) => {
@@ -64,7 +66,6 @@ export function PlatformSidebar() {
         })}
       </nav>
       <div className="space-y-2 border-t border-slate-100 p-3">
-        <p className="text-[10px] text-slate-400">In collaboration with GDG</p>
         <div className="flex items-center gap-2 text-[11px] text-slate-500">
           <span
             className={cn(

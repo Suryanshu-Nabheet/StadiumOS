@@ -2,7 +2,7 @@
 
 **Enterprise AI-powered stadium crowd intelligence and emergency response platform** for IPL, World Cup, and large-scale cricket events.
 
-Built for **GDG Hackathon** — Google Cloud deployment ready.
+Built for **GDG Hackathon** by **Suryanshu Nabheet** — Google Cloud deployment ready.
 
 Brand assets: `public/favicon.svg` · `public/gdg.svg`
 
@@ -84,6 +84,10 @@ curl http://localhost:3000/api/health
 | [Deployment](./docs/deployment.md) | Vercel, Docker, Cloud Run |
 | [Development](./docs/development.md) | Contributor guide |
 
+## Author
+
+**Suryanshu Nabheet** — developer, [GDG Hackathon](https://developers.google.com/community/gdg)
+
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). Copyright © Suryanshu Nabheet.

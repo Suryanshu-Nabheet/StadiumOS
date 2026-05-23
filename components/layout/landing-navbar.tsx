@@ -32,32 +32,36 @@ export function LandingNavbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         className={cn(
-          "pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl px-3 py-2 md:gap-4 md:px-4 md:py-2.5",
+          "pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl px-4 py-2.5 md:px-5 md:py-3",
           "glass-surface-strong transition-shadow duration-300",
           scrolled && "shadow-lg shadow-sky-500/10",
         )}
         aria-label="Primary"
       >
-        <BrandCollab size="xs" href="/" className="min-w-0 shrink" />
+        <div className="min-w-0 flex-1">
+          <BrandCollab size="nav" href="/" />
+        </div>
 
-        <div className="hidden items-center gap-0.5 md:flex">
+        <div className="hidden shrink-0 items-center gap-1 md:flex">
           {links.map((link) => (
             <SmoothScrollLink
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-1.5 text-[13px] font-medium text-slate-600 transition-colors duration-200 hover:bg-white/50 hover:text-slate-900"
+              className="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:bg-white/60 hover:text-slate-900"
             >
               {link.label}
             </SmoothScrollLink>
           ))}
         </div>
 
-        <MotionLink href="/dashboard">
-          <Button size="sm" className="h-8 shrink-0 px-3 text-xs shadow-sm">
-            Command center
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
-        </MotionLink>
+        <div className="shrink-0">
+          <MotionLink href="/dashboard">
+            <Button size="sm" className="h-9 px-4 text-sm font-medium shadow-sm">
+              Command center
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </MotionLink>
+        </div>
       </motion.nav>
     </header>
   );
