@@ -1,94 +1,88 @@
-# StadiumOS
+# StadiumOS AI
 
-**GDG Hackathon** — integrated, real-time stadium operations platform for safer cricket match days.
+**Enterprise AI-powered stadium crowd intelligence and emergency response platform** for IPL, World Cup, and large-scale cricket events.
 
-> **Status:** Boilerplate only. This repo is set up for development; the product is not built yet.
+Built for **GDG Hackathon** — Google Cloud deployment ready.
+
+![StadiumOS AI](./public/Banner.png)
+
+## Quick start
+
+```bash
+chmod +x scripts/*.sh
+./scripts/setup.sh
+./scripts/dev.sh
+```
+
+Open [http://localhost:3000](http://localhost:3000) → **Launch Command Center**.
+
+Full documentation: **[docs/README.md](./docs/README.md)**
 
 ## Problem
 
-### The threat
+| | |
+|---|---|
+| **Threat** | Massive crowds create dangerous bottlenecks, security vulnerabilities, and logistical chaos. |
+| **Gap** | Fragmented manual systems — teams cannot adapt to surges, weather, or threats in real time. |
+| **Need** | Integrated command platform: ticketing, crowd routing, automated emergency response. |
 
-Massive crowds at cricket matches create dangerous bottlenecks, severe security vulnerabilities, and logistical chaos during highly congested pre- and post-match movement.
+## Platform modules
 
-### The gap
-
-Current stadium operations rely on fragmented, manual systems. Security and volunteers cannot adapt instantly to rapid crowd surges, unpredictable weather, or emerging threats.
-
-### The need
-
-Organizers need an integrated, real-time command platform to unify ticketing, dynamically route crowd flow, and automate emergency responses—for a safe and seamless fan experience.
-
-## What we are building
-
-StadiumOS is a **unified command layer** for stadium operations—not another point tool. The hackathon target is a platform that helps organizers:
-
-| Area | Direction |
-| ---- | --------- |
-| **Operations dashboard** | Single view of crowd density, gates, and incidents |
-| **Ticketing integration** | Align entry flow with live attendance and capacity |
-| **Crowd routing** | Dynamic guidance when surges or bottlenecks appear |
-| **Emergency playbooks** | Faster, coordinated response when threats escalate |
-
-Exact scope and MVP features will be defined and implemented during the hackathon.
+| Module | Route |
+|--------|-------|
+| Command Center | `/dashboard` |
+| Crowd Flow AI | `/crowd-flow` |
+| Emergency Agents | `/emergency` |
+| Digital Twin | `/twin` |
+| Analytics | `/analytics` |
+| AI Assistant | `/assistant` |
 
 ## Tech stack
 
-| Layer | Choice |
-| ----- | ------ |
-| Framework | [Next.js](https://nextjs.org/) 16 (App Router) |
-| UI | [React](https://react.dev/) 19 |
-| Styling | [Tailwind CSS](https://tailwindcss.com/) 4 |
-| Language | TypeScript |
-| Package manager | [pnpm](https://pnpm.io/) 10 |
-
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) 20+
-- [pnpm](https://pnpm.io/installation) 10+
-
-Enable Corepack once (bundled with Node):
-
-```bash
-corepack enable
-```
-
-## Getting started
-
-```bash
-pnpm install
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
+Next.js 16 · TypeScript · Tailwind 4 · Zustand · TanStack Query · Recharts · Framer Motion · Gemini AI · Docker · Cloud Run
 
 ## Scripts
 
 | Command | Description |
-| ------- | ----------- |
-| `pnpm dev` | Development server |
-| `pnpm build` | Production build |
-| `pnpm start` | Run production server |
-| `pnpm lint` | ESLint |
+|---------|-------------|
+| `./scripts/setup.sh` | Install deps, env, verify |
+| `./scripts/dev.sh` | Development server |
+| `./scripts/verify.sh` | Lint + typecheck + build |
+| `./scripts/build.sh` | Production build |
+| `./scripts/docker.sh up` | Docker Compose |
+
+See [docs/scripts.md](./docs/scripts.md) for all scripts.
 
 ## Project structure
 
 ```
 stadiumos/
-├── app/
-│   ├── layout.tsx      # Root layout, metadata, favicon
-│   ├── page.tsx        # Home (placeholder — replace during hackathon)
-│   └── globals.css     # Global styles & theme tokens
-├── public/
-│   └── favicon.svg     # StadiumOS favicon
-├── package.json
-└── pnpm-lock.yaml
+├── app/              # Routes, API, UI pages
+├── server/           # Server layer (services, actions, env)
+├── agents/           # AI assistant logic
+├── services/         # Simulation engine
+├── components/       # React UI
+├── docs/             # Full documentation
+├── scripts/          # Setup & DevOps automation
+└── docker/           # Container build
 ```
 
-## Brand assets
+## API health check
 
-- **Favicon:** `public/favicon.svg` (wired in `app/layout.tsx`)
+```bash
+curl http://localhost:3000/api/health
+```
 
-Add logos, banners, and partner assets under `public/` as the team produces them.
+## Documentation
+
+| Doc | Topic |
+|-----|-------|
+| [Getting Started](./docs/getting-started.md) | Install & run |
+| [Architecture](./docs/architecture.md) | System design |
+| [API](./docs/api.md) | HTTP & Server Actions |
+| [Environment](./docs/environment.md) | Env variables |
+| [Deployment](./docs/deployment.md) | Vercel, Docker, Cloud Run |
+| [Development](./docs/development.md) | Contributor guide |
 
 ## License
 
