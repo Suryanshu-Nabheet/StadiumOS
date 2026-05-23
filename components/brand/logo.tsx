@@ -4,43 +4,40 @@ import { cn } from "@/lib/utils";
 
 interface LogoProps {
   showText?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md";
   href?: string | null;
   className?: string;
 }
 
 const sizes = {
-  sm: { icon: 28, text: "text-sm" },
-  md: { icon: 36, text: "text-base" },
-  lg: { icon: 44, text: "text-lg" },
+  xs: { icon: 22, text: "text-[13px]", ai: "text-[13px]" },
+  sm: { icon: 26, text: "text-sm", ai: "text-sm" },
+  md: { icon: 30, text: "text-sm", ai: "text-sm" },
 };
 
+/** StadiumOS mark only (no GDG). Prefer BrandCollab for co-branding. */
 export function Logo({
   showText = true,
-  size = "md",
+  size = "sm",
   href = "/",
   className,
 }: LogoProps) {
   const s = sizes[size];
   const content = (
-    <div className={cn("flex items-center gap-2.5", className)}>
+    <div className={cn("flex items-center gap-2", className)}>
       <Image
         src="/favicon.svg"
         alt="StadiumOS"
         width={s.icon}
         height={s.icon}
         className="shrink-0"
-        priority={size !== "sm"}
+        priority={size === "md"}
       />
       {showText && (
-        <div className="leading-tight">
-          <span className={cn("font-semibold text-slate-900", s.text)}>
-            StadiumOS
-          </span>
-          <span className={cn("ml-1 font-semibold text-sky-600", s.text)}>
-            AI
-          </span>
-        </div>
+        <span className={cn("font-semibold leading-none text-slate-900", s.text)}>
+          StadiumOS
+          <span className={cn("font-semibold text-sky-600", s.ai)}> AI</span>
+        </span>
       )}
     </div>
   );
@@ -49,7 +46,7 @@ export function Logo({
     return (
       <Link
         href={href}
-        className="inline-flex rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-sky-500/40"
+        className="inline-flex rounded-lg outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-sky-500/40"
       >
         {content}
       </Link>
@@ -59,14 +56,15 @@ export function Logo({
   return content;
 }
 
+/** @deprecated Use BrandCollab for × GDG co-brand */
 export function GdgLogo({ className }: { className?: string }) {
   return (
     <Image
       src="/gdg.svg"
       alt="Google Developer Groups"
-      width={72}
-      height={72}
-      className={cn("h-8 w-auto opacity-90", className)}
+      width={48}
+      height={48}
+      className={cn("h-6 w-auto opacity-90", className)}
     />
   );
 }

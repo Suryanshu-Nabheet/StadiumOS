@@ -1,8 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Logo, GdgLogo } from "@/components/brand/logo";
+import { motion, useReducedMotion } from "framer-motion";
+import { BrandCollab } from "@/components/brand/brand-collab";
+import { MotionLink } from "@/components/motion/motion-link";
+import { SmoothScrollLink } from "@/components/motion/smooth-scroll-link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
@@ -14,6 +16,7 @@ const links = [
 
 export function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -23,39 +26,39 @@ export function LandingNavbar() {
   }, []);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6">
-      <nav
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-3 md:px-6 md:pt-4">
+      <motion.nav
+        initial={reduce ? false : { y: -16, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
         className={cn(
-          "pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl px-4 py-2.5 transition-all duration-300 md:px-5 md:py-3",
-          "glass-surface-strong",
+          "pointer-events-auto mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl px-3 py-2 md:gap-4 md:px-4 md:py-2.5",
+          "glass-surface-strong transition-shadow duration-300",
           scrolled && "shadow-lg shadow-sky-500/10",
         )}
         aria-label="Primary"
       >
-        <Logo size="sm" href="/" />
+        <BrandCollab size="xs" href="/" className="min-w-0 shrink" />
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 md:flex">
           {links.map((link) => (
-            <a
+            <SmoothScrollLink
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 transition-colors hover:bg-white/50 hover:text-slate-900"
+              className="rounded-lg px-3 py-1.5 text-[13px] font-medium text-slate-600 transition-colors duration-200 hover:bg-white/50 hover:text-slate-900"
             >
               {link.label}
-            </a>
+            </SmoothScrollLink>
           ))}
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4">
-          <GdgLogo className="hidden sm:block h-7" />
-          <Link href="/dashboard">
-            <Button size="sm" className="shadow-sm">
-              Command center
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Button>
-          </Link>
-        </div>
-      </nav>
+        <MotionLink href="/dashboard">
+          <Button size="sm" className="h-8 shrink-0 px-3 text-xs shadow-sm">
+            Command center
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        </MotionLink>
+      </motion.nav>
     </header>
   );
 }
