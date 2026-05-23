@@ -8,7 +8,7 @@ Enterprise AI stadium operations platform for GDG Hackathon and production demos
 
 | Document | Description |
 | -------- | ----------- |
-| **[Presentation (judges)](./PRESENTATION.md)** | **Full pitch script, demo flow, Q&A** |
+| **[Presentation](./PRESENTATION.md)** | Project overview for judges and demos |
 | [Getting Started](./getting-started.md) | Install, setup, first run |
 | [Architecture](./architecture.md) | System design and data flow |
 | [API Reference](./api.md) | HTTP routes and server actions |

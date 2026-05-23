@@ -118,7 +118,7 @@ curl http://localhost:3000/api/health
 
 | Doc | Topic |
 |-----|-------|
-| **[Presentation (judges)](./docs/PRESENTATION.md)** | Pitch script & live demo |
+| **[Presentation](./docs/PRESENTATION.md)** | Project overview & demo |
 | [Getting Started](./docs/getting-started.md) | Install & run |
 | [Architecture](./docs/architecture.md) | System design |
 | [API](./docs/api.md) | HTTP & Server Actions |
