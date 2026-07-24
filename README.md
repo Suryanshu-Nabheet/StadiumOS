@@ -1,8 +1,8 @@
-![Agentic Premier League — GDG Patna](public/GDG-Patna-Banner.png)
+![Agentic Premier League Finals — Google Cloud · GDG Patna](public/Banner.png)
 
 # StadiumOS AI
 
-Enterprise AI-powered stadium crowd intelligence and emergency response for IPL, World Cup, and Motera-class venues.
+AI-powered stadium crowd intelligence and emergency response for IPL, World Cup, and Motera-class venues.
 
 Built for **Agentic Premier League Finals** · **Google Cloud** · **GDG Patna** · **Suryanshu Nabheet**
 
@@ -98,7 +98,7 @@ StadiumOS/
 ├── config/              # Stadium & site configuration
 ├── hooks/               # useStadium, useSimulation, …
 ├── types/               # Shared TypeScript contracts
-├── public/              # GDG-Patna-Banner.png, gdg.svg, brand assets
+├── public/              # Banner.png (APL), GDG-Patna-Banner.png, gdg.svg
 ├── docs/                # Architecture, API, deployment guides
 ├── scripts/             # Setup, verify, Docker automation
 ├── Dockerfile           # Production image (repo root)
