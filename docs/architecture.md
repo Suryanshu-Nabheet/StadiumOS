@@ -6,18 +6,18 @@ StadiumOS AI is a **Next.js full-stack application** with a clear separation bet
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        Browser (Client)                      │
+│                        Browser (Client)                     │
 │  React UI · Framer Motion · Recharts · Zustand store        │
 │  TanStack Query · Simulation tick (3.5s)                    │
 └───────────────────────────┬─────────────────────────────────┘
                             │ fetch / Server Actions
 ┌───────────────────────────▼─────────────────────────────────┐
-│                    Next.js App Router                        │
+│                    Next.js App Router                       │
 │  app/(platform)/*  ·  app/api/*  ·  server/actions/*        │
 └───────────────────────────┬─────────────────────────────────┘
                             │
 ┌───────────────────────────▼─────────────────────────────────┐
-│                      Server Layer (`/server`)                  │
+│                      Server Layer (`/server`)               │
 │  config/env · services · lib/errors · lib/response          │
 └───────────────────────────┬─────────────────────────────────┘
                             │
