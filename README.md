@@ -4,27 +4,6 @@
 
 Built for **GDG Hackathon** by **Suryanshu Nabheet** — deployed on **Google Cloud Run** (europe-west1).
 
-## Live demo
-
-| | |
-|---|---|
-| **Production** | **[https://stadiumos-1060302697447.europe-west1.run.app/](https://stadiumos-1060302697447.europe-west1.run.app/)** |
-| **Health** | [https://stadiumos-1060302697447.europe-west1.run.app/api/health](https://stadiumos-1060302697447.europe-west1.run.app/api/health) |
-
-### Try it now
-
-| Module | Live URL |
-|--------|----------|
-| Landing | [stadiumos-1060302697447.europe-west1.run.app](https://stadiumos-1060302697447.europe-west1.run.app/) |
-| Command Center | [/dashboard](https://stadiumos-1060302697447.europe-west1.run.app/dashboard) |
-| Crowd Flow | [/crowd-flow](https://stadiumos-1060302697447.europe-west1.run.app/crowd-flow) |
-| Emergency | [/emergency](https://stadiumos-1060302697447.europe-west1.run.app/emergency) |
-| Digital Twin | [/twin](https://stadiumos-1060302697447.europe-west1.run.app/twin) |
-| Analytics | [/analytics](https://stadiumos-1060302697447.europe-west1.run.app/analytics) |
-| AI Assistant | [/assistant](https://stadiumos-1060302697447.europe-west1.run.app/assistant) |
-
-Brand assets: `public/favicon.svg` · `public/gdg.svg`
-
 ## Quick start (local)
 
 ```bash
@@ -56,19 +35,6 @@ Full documentation: **[docs/README.md](./docs/README.md)**
 | **Analytics** | Trends, throughput, evac readiness, AI confidence |
 | **Assistant** | Gemini copilot on the same live data — no hallucinated dumps on simple chat |
 
-**Live:** [stadiumos-1060302697447.europe-west1.run.app](https://stadiumos-1060302697447.europe-west1.run.app/) · **MIT License** · **GDG Hackathon** · **Suryanshu Nabheet**
-
-## Platform modules
-
-| Module | Route | Production |
-|--------|-------|------------|
-| Command Center | `/dashboard` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/dashboard) |
-| Crowd Flow AI | `/crowd-flow` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/crowd-flow) |
-| Emergency Agents | `/emergency` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/emergency) |
-| Digital Twin | `/twin` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/twin) |
-| Analytics | `/analytics` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/analytics) |
-| AI Assistant | `/assistant` | [Open](https://stadiumos-1060302697447.europe-west1.run.app/assistant) |
-
 ## Tech stack
 
 Next.js 16 · TypeScript · Tailwind 4 · Zustand · TanStack Query · Recharts · Framer Motion · Gemini AI · Docker · Cloud Run
@@ -98,20 +64,6 @@ stadiumos/
 ├── scripts/          # Setup & DevOps automation
 ├── Dockerfile        # Cloud Run / Cloud Build (repo root)
 └── docker/           # Duplicate Dockerfile for local reference
-```
-
-## API health check
-
-**Production:**
-
-```bash
-curl https://stadiumos-1060302697447.europe-west1.run.app/api/health
-```
-
-**Local:**
-
-```bash
-curl http://localhost:3000/api/health
 ```
 
 ## Documentation
