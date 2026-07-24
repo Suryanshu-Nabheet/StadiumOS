@@ -1,4 +1,4 @@
-![Agentic Premier League Finals — Google Cloud · GDG Patna](public/Banner.svg)
+![Agentic Premier League — GDG Patna](public/GDG-Patna-Banner.png)
 
 # StadiumOS AI
 
@@ -98,7 +98,7 @@ StadiumOS/
 ├── config/              # Stadium & site configuration
 ├── hooks/               # useStadium, useSimulation, …
 ├── types/               # Shared TypeScript contracts
-├── public/              # APL Banner.svg, GDG-Patna-Banner, gdg.svg, assets
+├── public/              # GDG-Patna-Banner.png, gdg.svg, brand assets
 ├── docs/                # Architecture, API, deployment guides
 ├── scripts/             # Setup, verify, Docker automation
 ├── Dockerfile           # Production image (repo root)
